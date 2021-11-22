@@ -26,6 +26,8 @@ namespace ConsoleApp
             Console.WriteLine("Database initialized");
             Thread.Sleep(2000);
 
+            Console.WriteLine();
+
             while (true)
 
                 #region Huvudmeny
