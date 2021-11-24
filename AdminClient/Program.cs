@@ -45,7 +45,7 @@
             #endregion
 
             #region case 2: Radera en kund 
-                // Blir en bugg när Se alla kunder ska köras efter radering av kund
+                // TODO Blir en bugg när Se alla kunder ska köras efter radering av kund
 
             case "2":
 

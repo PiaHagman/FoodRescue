@@ -32,7 +32,6 @@ namespace TestAdminClient
 
                 Assert.Equal(1, query.Count());
 
-                // Annars kanske jag kan gå till "Se alla kunder" och se om Preem lagts till.
 
                 //var user = LoadMyUser(id); // load the entity
                 //Assert.AreEqual("Mr", user.Title); // test your properties

@@ -12,11 +12,6 @@ namespace ConsoleApp
 {
     class Program
     {
-        //TODO Bryt ut consoleprogrammet i hjälpmetoder REFACTORING!!
-        //TODO kolla på ESC-möjlighet för fler metoder
-        //TODO Om kund inte är kopplat till köp så ska HELA kunden raderas, ink id-nummer.
-        //TODO Gör om registrera kund så att ett userobjekt skickas tillbaka.
-        //TODO hoppar ut till "fel" meny i admin och kund
 
         static void Main(string[] args)
         {
@@ -57,8 +52,7 @@ namespace ConsoleApp
                             Console.WriteLine("Vad vill du göra? Ange ditt val 1-6:");
                             Console.WriteLine();
                             Console.WriteLine("1. Se alla kunder");
-                            Console.WriteLine(
-                                "2. Radera en kund"); //TODO lägga till att uppdatera/radera personlig info
+                            Console.WriteLine("2. Radera en kund");
                             Console.WriteLine("3. Se alla restauranger");
                             Console.WriteLine("4. Lägga till en ny restaurang");
                             Console.WriteLine("5. Radera osålda lunchlådor med utgånget datum");
@@ -269,7 +263,7 @@ namespace ConsoleApp
                                             Console.WriteLine("Välkommen " + user.PersonalInfo.FullName + "!");
                                             Console.WriteLine("Vad vill du göra? Välj 1 eller 2:");
                                             Console.WriteLine("\n1. Se och köpa tillgängliga lunchlådor");
-                                            Console.WriteLine("2. Se dina tidigare köp"); //TODO Dela upp i undermeny, baserat på ordernummer, eller alla, totala ordersumman 
+                                            Console.WriteLine("2. Se dina tidigare köp"); 
 
                                             var choiceLoggedIn = Console.ReadLine();
 
@@ -307,7 +301,7 @@ namespace ConsoleApp
                                                             activeUser.BuyThisLunchBox(Convert.ToInt32(foodChoice));
                                                     if (canBuyThisLunchBox)
                                                     {
-                                                        Console.WriteLine("Tack för ditt köp!");        //TODO Lunchlådan hämtas hos xx restaurang
+                                                        Console.WriteLine("Tack för ditt köp!");
                                                         Console.ReadLine();
                                                     }
                                                     else
@@ -418,7 +412,7 @@ namespace ConsoleApp
 
                                 switch (restaurantChoice)
                                 {
-                                    #region Case 1: Se alla sålda matlådor //TODO Lägg till ESC möjlighet
+                                    #region Case 1: Se alla sålda matlådor
 
                                     case "1":
 
@@ -454,7 +448,6 @@ namespace ConsoleApp
                                             Console.WriteLine($"Summa: {Decimal.Round(income)} kronor.");
                                         }
                                         
-                                        //TODO Console.WriteLine("\n Vill du se inkomst för en annan månad?");
 
                                         Console.ReadLine();
                                         break;
