@@ -60,6 +60,23 @@ namespace TestCustomerClient
             Assert.False(LunchBoxDoesntExist);
         }
 
+        [Fact]
+
+        void GetBoughtBoxesTest()
+        {
+            //Logga in en befintlig användare som ska användas för köp
+            var user = UserBackend.TryLogin("pia.hagman", "HelloWorld1");
+
+            //objektet skickas in i UserBackend för att användas vid köpet
+            UserBackend activeUser = new UserBackend(user);
+
+            var boughtBoxes= activeUser.GetBoughtBoxes();
+
+            //Kontrollera att de ItemSales som tillhör pia.hagman återfinns i listan och andra inte
+            Assert.Contains(boughtBoxes, i => i.Id == 1 || i.Id == 2);
+            Assert.DoesNotContain(boughtBoxes, i => i.Id == 4);
+
+        }
 
      
 
