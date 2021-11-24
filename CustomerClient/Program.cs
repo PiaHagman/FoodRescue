@@ -2,10 +2,186 @@
 //Skapa och seeda databasen
 
 using DataLayer.Backend;
+using DataLayer.Model;
 
 AdminBackend admin = new AdminBackend();
 admin.CreateAndSeedDb();
 Console.WriteLine("Database initialized");
 Thread.Sleep(2000);
 
+#region MenyUser
+
+Console.Clear();
+Console.WriteLine("Vad vill du göra? Välj 1 eller 2:");
 Console.WriteLine();
+Console.WriteLine("1. Logga in. För testkund använd - användarnamn: pia.hagman, lösenord: HelloWorld1");
+Console.WriteLine("2. Registrera ny användare");
+
+var userChoice = Console.ReadLine();
+
+#endregion
+
+switch (userChoice)
+{
+    #region Case 1: Logga in
+
+    case "1": //Logga in
+        Console.WriteLine("Ange användarnamn:");
+        var username = Console.ReadLine();
+        Console.WriteLine("Ange lösenord:");
+        var password = Console.ReadLine();
+
+        var user = UserBackend.TryLogin(username, password);
+
+        if (user == null)
+        {
+            Console.WriteLine("Login misslyckades!");
+            Console.ReadLine();
+        }
+        #endregion
+
+        #region Inloggad Användare
+        else
+        {
+            LoggedInCustomer(user);
+        }
+
+        break;
+
+    #endregion
+
+    case "2": //Registrera ny användare
+        var loggedInUser = RegisterUser();
+        LoggedInCustomer(loggedInUser);
+        break;
+
+    default:
+        Console.WriteLine("Vänligen ange 1 för att Logga in eller 2 för att Registrera nytt konto:");
+        break;
+
+}
+
+#region Hjälpmetod SeeAndBuyLunchBox
+void SeeAndBuyLunchbox(User user)
+{
+    UserBackend activeUser = new UserBackend(user);
+    Console.Clear();
+    Console.WriteLine("Lunchlådor Food Rescue:");
+    Console.WriteLine("\nAnge önskad diet - Vego/kött/fisk:");
+    var diet = Console.ReadLine().ToLower();
+
+    while (diet != "vego" && diet != "fisk" && diet != "kött")
+    {
+        Console.WriteLine("Vänligen ange vego, fisk eller kött:");
+        diet = Console.ReadLine().ToLower();
+    }
+
+    Console.WriteLine("\nTillgänliga Lunchlådor:");
+    foreach (var lb in activeUser.GetAvailableLunchBoxes(diet))
+    {
+        Console.WriteLine($"{lb.DishName}, {Decimal.Round(lb.Price)} kronor, {lb.Restaurant.Name}, Köp-ID: {lb.Id}");
+    }
+    Console.WriteLine("\nTryck esc för att logga ut, enter för att köpa en lunchlåda:");
+    
+    var key = Console.ReadKey().Key;
+    if (key == ConsoleKey.Escape)
+    {
+        return;
+    }
+    Console.WriteLine("\nKöp en lunchlåda genom att ange dess Köp-ID:");
+    var foodChoice = Console.ReadLine();
+
+    bool canBuyThisLunchBox =
+            activeUser.BuyThisLunchBox(Convert.ToInt32(foodChoice));
+    if (canBuyThisLunchBox)
+    {
+        Console.WriteLine("Tack för ditt köp!");        //TODO Lunchlådan hämtas hos xx restaurang
+        Console.ReadLine();
+    }
+    else
+    {
+        Console.WriteLine("Matlådan kan inte köpas, vänligen ange ett nytt Köp-ID.");
+    }
+
+    Console.ReadLine();
+}
+#endregion
+
+#region Hjälpmetod SeePreviousOrders()
+void SeePreviousOrders(User user)
+{
+    UserBackend activeUser = new UserBackend(user);
+    Console.Clear();
+    Console.WriteLine("Dina tidigare köp:");
+    foreach (var i in activeUser.GetBoughtBoxes())
+    {
+        Console.WriteLine($"\nOrdernummer: {i.Id}, Orderdatum: {i.SalesDate}");
+        foreach (var lb in i.LunchBoxes)
+        {
+            Console.WriteLine($"{lb.DishName}, {lb.Restaurant.Name}, {decimal.Round(lb.Price)} kronor");
+        }
+    }
+    Console.ReadLine();
+}
+#endregion
+
+#region Hjälpmetod RegisterUser()
+User RegisterUser()
+{
+    Console.Clear();
+    Console.WriteLine("Registrera användare");
+
+    Console.WriteLine("\nAnge ditt för- och efternamn:");
+    var name = Console.ReadLine();
+
+    Console.WriteLine("Ange ett användarnamn:");
+    var userName = Console.ReadLine();
+
+    Console.WriteLine("Ange ett lösenord:");
+    var passWord = Console.ReadLine();
+
+    Console.WriteLine("Ange din mejladress");
+    var mail = Console.ReadLine();
+
+    UserBackend.CreateUser(name, userName, passWord, mail);
+
+    Console.WriteLine($"Välkommen {name}. Du är nu registrerad och inloggad.");
+    
+
+    //Skapar en inloggad användare som skickar tillbaka
+    var user = UserBackend.TryLogin(name, passWord);
+    return user;
+
+}
+#endregion
+
+#region LoggedInCustomer()
+void LoggedInCustomer(User user)
+{
+    while (true)
+    {
+        Console.Clear();
+        Console.WriteLine("Välkommen " + user.PersonalInfo.FullName + "!");
+        Console.WriteLine("Vad vill du göra? Välj 1 eller 2:");
+        Console.WriteLine("\n1. Se och köpa tillgängliga lunchlådor");
+        Console.WriteLine("2. Se dina tidigare köp"); //TODO Dela upp i undermeny, baserat på ordernummer, eller alla, totala ordersumman 
+
+        var choiceLoggedIn = Console.ReadLine();
+
+        switch (choiceLoggedIn)
+        {
+            case "1": //Se och köpa lunchlådor
+                SeeAndBuyLunchbox(user);
+                break;
+
+            case "2": //Se tidigare köp
+                SeePreviousOrders(user);
+                break;
+
+            default:
+                Console.WriteLine("Vänligen gör ditt val genom att ange siffran 1 eller 2:");
+                break;
+        }
+    }
+}
+#endregion
