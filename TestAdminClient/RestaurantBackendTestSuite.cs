@@ -1,4 +1,6 @@
 using DataLayer.Backend;
+using DataLayer.Data;
+using System.Linq;
 using Xunit;
 
 namespace TestAdminClient
@@ -17,21 +19,26 @@ namespace TestAdminClient
         }
 
         [Fact]
-        public void Test1()
+        public void Test_AddRestaurant()
         {
 
             void AddRestaurant_test()
             {
                 _AdminBackend.AddRestaurant("Preem", "Sätila", "03013456456");
 
-                using var ctx = new FoodboxDbContext();
+                using var ctx = new FoodRescueDbContext();
                     var query = ctx.Restaurants
-                        .Include
-                    
-                    //var user = LoadMyUser(id); // load the entity
-                    //Assert.AreEqual("Mr", user.Title); // test your properties
-                    //Assert.AreEqual("Joe", user.Firstname);
-                    //Assert.AreEqual("Bloggs", user.Lastname);
+                        .Where(c => c.Name == "Preem")
+                        .ToList()
+                        ;
+                Assert.NotNull(query);
+
+                // Annars kanske jag kan gå till "Se alla kunder" och se om Preem lagts till.
+
+                //var user = LoadMyUser(id); // load the entity
+                //Assert.AreEqual("Mr", user.Title); // test your properties
+                //Assert.AreEqual("Joe", user.Firstname);
+                //Assert.AreEqual("Bloggs", user.Lastname);
             };
 
 

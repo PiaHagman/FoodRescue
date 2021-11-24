@@ -155,32 +155,34 @@ namespace ConsoleApp
 
                                 #region case 5: Radera lunchlådor med kort datum
 
-                                case "5": 
-                                    Console.Clear();
-                                    Console.WriteLine("Radera osålda unchlådor med utgånget datum");
+                                // Jon tog bort för testning
 
-                                    Console.WriteLine("Följande osålda lunchlådor har passerat bäst-före-datum:");
-                                    Console.WriteLine();
-                                    foreach (var lb in admin.GetExpiredLunchBoxes())
-                                    {
-                                        Console.WriteLine(
-                                            $"{lb.DishName}, {lb.DishType}, {Decimal.Round(lb.Price)} kronor");
-                                    }
+                                //case "5": 
+                                //    Console.Clear();
+                                //    Console.WriteLine("Radera osålda unchlådor med utgånget datum");
 
-                                    Console.WriteLine("\nVill du radera lunchlådorna, ange ja/nej:");
-                                    var delete = Console.ReadLine();
-                                    if (delete.ToLower() == "ja")
-                                    {
-                                        admin.DeleteLunchBoxes();
-                                        Console.WriteLine("\nLunchlådorna har raderats!");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("\nLunchlådorna har inte raderats.");
-                                    }
+                                //    Console.WriteLine("Följande osålda lunchlådor har passerat bäst-före-datum:");
+                                //    Console.WriteLine();
+                                //    foreach (var lb in admin.GetExpiredLunchBoxes())
+                                //    {
+                                //        Console.WriteLine(
+                                //            $"{lb.DishName}, {lb.DishType}, {Decimal.Round(lb.Price)} kronor");
+                                //    }
 
-                                    Console.ReadLine();
-                                    break;
+                                //    Console.WriteLine("\nVill du radera lunchlådorna, ange ja/nej:");
+                                //    var delete = Console.ReadLine();
+                                //    if (delete.ToLower() == "ja")
+                                //    {
+                                //        admin.DeleteLunchBoxes();
+                                //        Console.WriteLine("\nLunchlådorna har raderats!");
+                                //    }
+                                //    else
+                                //    {
+                                //        Console.WriteLine("\nLunchlådorna har inte raderats.");
+                                //    }
+
+                                //    Console.ReadLine();
+                                //    break;
 
                                 #endregion
 

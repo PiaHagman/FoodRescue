@@ -34,7 +34,8 @@ namespace DataLayer.Backend
         public List<User> GetUsers()
         {
             using var ctx = new FoodRescueDbContext();
-            List<User> getUsers = ctx.Users.Include(u => u.PersonalInfo)
+            List<User> getUsers = ctx.Users
+                .Include(u => u.PersonalInfo)
                 .ToList();      
 
             return getUsers;

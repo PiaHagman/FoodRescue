@@ -1,5 +1,7 @@
 ﻿using DataLayer.Backend;
 
+// TODO Flytta ut Se alla kunder till egen metod
+
 {
     //Skapa och seeda databasen
     AdminBackend admin = new AdminBackend();
@@ -34,8 +36,8 @@
                 Console.WriteLine("Kunder Food Rescue:\n");
                 foreach (var infoUser in admin.GetUsers())
                 {
-                        Console.WriteLine(
-                            $"Id: {infoUser.Id}, Namn: {infoUser.PersonalInfo.FullName}, Användarnamn: {infoUser.PersonalInfo.Username}, Lösenord: {infoUser.PersonalInfo.Password}, Email: {infoUser.PersonalInfo.Email}");
+                        Console.WriteLine
+                        ($"Id: {infoUser.Id}, Namn: {infoUser.PersonalInfo.FullName}, Användarnamn: {infoUser.PersonalInfo.Username}, Lösenord: {infoUser.PersonalInfo.Password}, Email: {infoUser.PersonalInfo.Email}");
                 }
                 Console.ReadLine();
                 break;
@@ -47,7 +49,15 @@
             case "2":
 
                 Console.Clear();
-                Console.WriteLine("Ange vilken användare du vill radera genom att ange användarnamnet:");
+                Console.Clear();
+                Console.WriteLine("Kunder Food Rescue:\n");
+                foreach (var infoUser in admin.GetUsers())
+                {
+                    Console.WriteLine(
+                        $"Id: {infoUser.Id}, Namn: {infoUser.PersonalInfo.FullName}, Användarnamn: {infoUser.PersonalInfo.Username}, Lösenord: {infoUser.PersonalInfo.Password}, Email: {infoUser.PersonalInfo.Email}");
+                }
+
+                Console.WriteLine("\nAnge vilken användare du vill radera genom att ange användarnamnet:");
                 string deleteName = Console.ReadLine();
 
                 bool couldDeleteUser = admin.DeleteUser(deleteName);
@@ -102,7 +112,7 @@
 
             #endregion
 
-            #region Reset database
+            #region case 5: Reset database
             case "5":
                 Console.Clear();
                 Console.WriteLine("För att återställa databasen skriv \"ja\"");
@@ -126,9 +136,6 @@
                 break;
                 #endregion
         }
-
-        break;
-
 
     }
 }
