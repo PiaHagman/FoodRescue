@@ -57,8 +57,7 @@ namespace ConsoleApp
                             Console.WriteLine("Vad vill du göra? Ange ditt val 1-6:");
                             Console.WriteLine();
                             Console.WriteLine("1. Se alla kunder");
-                            Console.WriteLine(
-                                "2. Radera en kund"); //TODO lägga till att uppdatera/radera personlig info
+                            Console.WriteLine("2. Radera en kund"); //TODO lägga till att uppdatera/radera personlig info
                             Console.WriteLine("3. Se alla restauranger");
                             Console.WriteLine("4. Lägga till en ny restaurang");
                             Console.WriteLine("5. Radera osålda lunchlådor med utgånget datum");
