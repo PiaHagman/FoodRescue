@@ -22,16 +22,15 @@ namespace TestAdminClient
         public void Test_AddRestaurant()
         {
 
-            void AddRestaurant_test()
-            {
-                _AdminBackend.AddRestaurant("Preem", "Sätila", "03013456456");
+            
+                _AdminBackend.AddRestaurant("Svårtnamn", "Sätila", "03013456456");
 
                 using var ctx = new FoodRescueDbContext();
                     var query = ctx.Restaurants
-                        .Where(c => c.Name == "Preem")
-                        .ToList()
-                        ;
-                Assert.NotNull(query);
+                        .Where(c => c.Name == "Svårtnamn")
+                        .ToList();
+
+                Assert.Equal(1, query.Count());
 
                 // Annars kanske jag kan gå till "Se alla kunder" och se om Preem lagts till.
 
@@ -39,7 +38,7 @@ namespace TestAdminClient
                 //Assert.AreEqual("Mr", user.Title); // test your properties
                 //Assert.AreEqual("Joe", user.Firstname);
                 //Assert.AreEqual("Bloggs", user.Lastname);
-            };
+            
 
 
         }
