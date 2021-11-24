@@ -12,6 +12,8 @@ namespace DataLayer.Backend
 
         private User _user;
 
+        public UserBackend(){}
+
         public UserBackend(User user)
         {
             _user = user;
@@ -90,6 +92,9 @@ namespace DataLayer.Backend
 
             return boughtBoxes;
         }
+        #endregion
+
+        #region CreateUser()
 
         public static void CreateUser(string fullname, string username, string password, string email)
         {
@@ -104,8 +109,10 @@ namespace DataLayer.Backend
             
         }
 
-
-
         #endregion
+
+
+
+        
     }
 }
