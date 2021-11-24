@@ -62,7 +62,11 @@ namespace DataLayer.Backend
         public bool BuyThisLunchBox(int lunchboxid)
         {
             using var ctx = new FoodRescueDbContext();
-            var lunchBox = ctx.LunchBoxes.Find(lunchboxid);
+            var availablelunchBoxes = ctx.LunchBoxes
+                .Where(lb => lb.ItemSale == null && lb.Id==lunchboxid);
+
+            var lunchBox = availablelunchBoxes.FirstOrDefault();
+
             _user = ctx.Users.Find(_user.Id);
 
             bool lunchBoxExists = lunchBox != null;
