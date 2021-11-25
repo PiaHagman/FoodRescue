@@ -16,7 +16,7 @@ namespace DataLayer.Data
         public DbSet<ItemSale> ItemSales { get; set; }
         public DbSet<UserPersonalInfo> PersonalInfo { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder) // Skapar databasen, override till DbContext-
         {
             modelBuilder.Entity<UserPersonalInfo>()
                 .HasIndex(e => e.Username).IsUnique();

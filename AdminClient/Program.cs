@@ -10,8 +10,8 @@
     //Thread.Sleep(2000);
 
     Console.WriteLine();
-
-    while (true)
+    bool exit = true; // HÄR UTVECKLA
+    while (exit)
     {
         #region Meny Admin
 
@@ -22,6 +22,7 @@
         Console.WriteLine("3. Se alla restauranger");
         Console.WriteLine("4. Lägga till en ny restaurang");
         Console.WriteLine("5. Återställa databasen");
+        Console.WriteLine("0. Avsluta");
 
         #endregion
 
@@ -135,7 +136,21 @@
             default:
                 Console.WriteLine("Vänligen ange en siffra mellan 1-5:");
                 break;
-                #endregion
+            #endregion
+
+
+            #region case 0: Reset database
+
+            case "0":
+            {
+                exit = false;
+                break;
+                
+            }
+
+            #endregion
+
+
         }
 
     }
