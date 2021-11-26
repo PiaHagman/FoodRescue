@@ -19,6 +19,7 @@ while (true)
         Console.ReadLine();
     }
 }
+
 #region MainProgramLoop
 void MainProgramLoop()
 {
@@ -37,8 +38,7 @@ void MainProgramLoop()
             break;
 
         case "2": //Registrera ny användare
-            var loggedInUser = RegisterUser();
-            ProgramLoopLoggedInCust(loggedInUser);
+            RegisterUser();
             break;
 
         default:
@@ -127,7 +127,7 @@ void SeePreviousOrders(User user)
 #endregion
 
 #region Hjälpmetod RegisterUser()
-User RegisterUser()
+void RegisterUser()
 {
     Console.Clear();
     Console.WriteLine("Registrera användare");
@@ -146,12 +146,19 @@ User RegisterUser()
 
     UserBackend.CreateUser(name, userName, passWord, mail);
 
-    Console.WriteLine($"Välkommen {name}. Du är nu registrerad och inloggad.");
+    Console.ReadLine();
     
 
     //Skapar en inloggad användare som skickar tillbaka
-    var user = UserBackend.TryLogin(name, passWord);
-    return user;
+    var user = UserBackend.TryLogin(userName, passWord);
+
+    if (user == null)
+    {
+        Console.WriteLine("Något gick fel, vänligen försök igen");
+        Console.ReadLine();
+    }
+    else { ProgramLoopLoggedInCust(user); }
+
 
 }
 #endregion

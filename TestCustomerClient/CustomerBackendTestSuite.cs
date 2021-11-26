@@ -44,7 +44,7 @@ namespace TestCustomerClient
             //assert.NotNull
         }
 
-        [Fact]
+        /*[Fact]
         void TryBuyLunchBoxTest()
         {
             //Logga in en befintlig användare som ska användas för köp
@@ -64,7 +64,7 @@ namespace TestCustomerClient
             //Prova att köpa en lunchbox med ett id som inte finns
             bool LunchBoxDoesntExist = activeUser.BuyThisLunchBox(20);
             Assert.False(LunchBoxDoesntExist);
-        }
+        }*/
 
         [Fact]
 
