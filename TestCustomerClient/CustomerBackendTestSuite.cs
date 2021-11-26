@@ -1,7 +1,9 @@
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 using DataLayer.Backend;
+using DataLayer.Data;
 using DataLayer.Model;
 using Xunit;
 
@@ -36,35 +38,44 @@ namespace TestCustomerClient
             var userIsNull = UserBackend.TryLogin("karin.holm", "HelloWorld1");
             var existingUsernameWrongPassword = UserBackend.TryLogin("jon.krantz", "Hello");
 
-            Assert.True(loggedInUser != null);
-            Assert.True(userIsNull == null);
-            Assert.True(existingUsernameWrongPassword == null);
+            Assert.NotNull(loggedInUser);
+            Assert.Null(userIsNull);
+            Assert.Null(existingUsernameWrongPassword);
+            Assert.Equal("jon.krantz", loggedInUser.PersonalInfo.Username);
+            Assert.Equal("Jon Krantz", loggedInUser.PersonalInfo.FullName);
+            Assert.Equal("HelloWorld1", loggedInUser.PersonalInfo.Password);
+            Assert.Equal("krantz.jon@gmail.com", loggedInUser.PersonalInfo.Email);
+       
 
-            //Assert.Equal
-            //assert.NotNull
         }
 
-        /*[Fact]
+        [Fact]
         void TryBuyLunchBoxTest()
         {
+            
             //Logga in en befintlig användare som ska användas för köp
             var user = UserBackend.TryLogin("pia.hagman", "HelloWorld1");
 
             //objektet skickas in i UserBackend för att användas vid köpet
             UserBackend activeUser = new UserBackend(user);
 
-            //Köp en lunchbox genom att ange dess id (id plockas från tabell-data)
-            bool canBuyThisLunchBox = activeUser.BuyThisLunchBox(1);
-            Assert.True(canBuyThisLunchBox);
+            using var ctx = new FoodRescueDbContext();
+            var lunchBox = ctx.LunchBoxes.Find(1);
 
-            //Försök köpa samma lunchbox igen
-            bool cantBuyThisLunchBox = activeUser.BuyThisLunchBox(1);
-            Assert.False(cantBuyThisLunchBox);
-            
-            //Prova att köpa en lunchbox med ett id som inte finns
-            bool LunchBoxDoesntExist = activeUser.BuyThisLunchBox(20);
-            Assert.False(LunchBoxDoesntExist);
-        }*/
+            //Köp den lunchbox vi plockat ut från databasen
+            LunchBox lunchBoxObject = activeUser.BuyThisLunchBox(lunchBox.Id);
+
+            Assert.NotNull(lunchBoxObject);
+            Assert.Equal(lunchBox.DishName, lunchBoxObject.DishName);
+
+            //Försök köpa samma lunchbox igen, få null tillbaka
+            var luncBoxIsNull = activeUser.BuyThisLunchBox(lunchBox.Id);
+            Assert.Null(luncBoxIsNull);
+
+            //Prova att köpa en lunchbox med ett id som inte finns, få null tillbaka
+            var lunchBoxDoesntExist = activeUser.BuyThisLunchBox(20);
+            Assert.Null(lunchBoxDoesntExist);
+        }
 
         [Fact]
 

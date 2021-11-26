@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Data
 {
-    internal class FoodRescueDbContext : DbContext
+    public class FoodRescueDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
