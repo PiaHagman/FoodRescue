@@ -62,8 +62,13 @@ void SeeAndBuyLunchbox(User user)
         Console.WriteLine("Vänligen ange vego, fisk eller kött:");
         diet = Console.ReadLine().ToLower();
     }
-
     Console.WriteLine("\nTillgänliga Lunchlådor:");
+    if (activeUser.GetAvailableLunchBoxes(diet).Count == 0)
+    {
+        Console.WriteLine($"Det finns tyvärr inga tillgängliga lunchlådor i kategorin {diet}.");
+        Console.ReadLine();
+        return;
+    }
     foreach (var lb in activeUser.GetAvailableLunchBoxes(diet))
     {
         Console.WriteLine($"{lb.DishName}, {Decimal.Round(lb.Price)} kronor, {lb.Restaurant.Name}, Köp-ID: {lb.Id}");
@@ -114,8 +119,14 @@ void SeePreviousOrders(User user)
     UserBackend activeUser = new UserBackend(user);
     Console.Clear();
     Console.WriteLine("Dina tidigare köp:");
+
+    if (activeUser.GetBoughtBoxes().Count == 0)
+    {
+        Console.WriteLine("Du har inte gjort några tidigare köp.");
+    }
     foreach (var i in activeUser.GetBoughtBoxes())
     {
+        
         Console.WriteLine($"\nOrdernummer: {i.Id}, Orderdatum: {i.SalesDate}");
         foreach (var lb in i.LunchBoxes)
         {
@@ -145,9 +156,6 @@ void RegisterUser()
     var mail = Console.ReadLine();
 
     UserBackend.CreateUser(name, userName, passWord, mail);
-
-    Console.ReadLine();
-    
 
     //Skapar en inloggad användare som skickar tillbaka
     var user = UserBackend.TryLogin(userName, passWord);
