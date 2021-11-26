@@ -6,15 +6,18 @@ admin.CreateAndSeedDb();
 Console.WriteLine("Database initialized");
 Thread.Sleep(2000);
 
-try
+while (true)
 {
-    MainProgramLoop();
-}
-catch
-{
-    Console.Clear();
-    Console.WriteLine("Något gick fel. Tryck valfri tangent för att ta starta om appen.");
-    Console.ReadLine();
+    try
+    {
+        MainProgramLoop();
+    }
+    catch
+    {
+        Console.Clear();
+        Console.WriteLine("Något gick fel. Tryck valfri tangent för att ta starta om appen.");
+        Console.ReadLine();
+    }
 }
 #region MainProgramLoop
 void MainProgramLoop()
@@ -90,11 +93,11 @@ void SeeAndBuyLunchbox(User user)
     }
     
  
-    bool canBuyThisLunchBox =
+    LunchBox lunchBoxToBuy =
             activeUser.BuyThisLunchBox(foodChoice);
-    if (canBuyThisLunchBox)
+    if (lunchBoxToBuy != null)
     {
-        Console.WriteLine($"Tack för ditt köp!");        //TODO Lunchlådan hämtas hos xx restaurang
+        Console.WriteLine($"Tack för ditt köp av {lunchBoxToBuy.DishName}. Lunchlådan kan hämtas hos {lunchBoxToBuy.Restaurant.Name}.");        //TODO Lunchlådan hämtas hos xx restaurang
     }
     else
     {

@@ -59,10 +59,11 @@ namespace DataLayer.Backend
         #endregion
 
         #region BuyThisLunchBox()
-        public bool BuyThisLunchBox(int lunchboxid)
+        public LunchBox BuyThisLunchBox(int lunchboxid)
         {
             using var ctx = new FoodRescueDbContext();
             var availablelunchBoxes = ctx.LunchBoxes
+                .Include(lb => lb.Restaurant)
                 .Where(lb => lb.ItemSale == null && lb.Id==lunchboxid);
 
             var lunchBox = availablelunchBoxes.FirstOrDefault();
@@ -76,9 +77,9 @@ namespace DataLayer.Backend
                 ctx.ItemSales.Add(new ItemSale { SalesDate = DateTime.Today, LunchBoxes = new[] { lunchBox }, User = _user });
                 ctx.SaveChanges();
 
-                return true;
+                return lunchBox;
             }
-            return false;
+            return null;
         }
 
         #endregion
