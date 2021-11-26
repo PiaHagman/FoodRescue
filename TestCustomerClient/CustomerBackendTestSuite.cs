@@ -24,6 +24,9 @@ namespace TestCustomerClient
         [Fact]
         void RegisterAndLoginNewUserTest()
         {
+
+            //TODO Kolla mot databas istället
+
             //Resistrerar ny kund
             UserBackend.CreateUser("Jon Krantz", "jon.krantz", "HelloWorld1",
                  "krantz.jon@gmail.com");
@@ -36,6 +39,9 @@ namespace TestCustomerClient
             Assert.True(loggedInUser != null);
             Assert.True(userIsNull == null);
             Assert.True(existingUsernameWrongPassword == null);
+
+            //Assert.Equal
+            //assert.NotNull
         }
 
         [Fact]

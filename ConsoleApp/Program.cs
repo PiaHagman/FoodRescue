@@ -245,8 +245,10 @@ namespace ConsoleApp
                                     Console.WriteLine("Ange lösenord:");
                                     var password = Console.ReadLine();
 
+                                    //try 
                                     var user = UserBackend.TryLogin(username, password);
 
+                                    //catch
                                     if (user == null)
                                     {
                                         Console.WriteLine("Login misslyckades!");
