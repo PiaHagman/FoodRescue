@@ -72,11 +72,26 @@ void SeeAndBuyLunchbox(User user)
     {
         return;
     }
-    Console.WriteLine("\nKöp en lunchlåda genom att ange dess Köp-ID:");
-    var foodChoice = Console.ReadLine();
 
+    var foodChoice=0;
+    Console.WriteLine("\nKöp en lunchlåda genom att ange dess Köp-ID:");
+
+    while (true)
+    {
+        try
+        {
+            foodChoice = Convert.ToInt32(Console.ReadLine());
+            break;
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Vänligen ange matlådans köp-id (i heltal) för att köpa lådan.");
+        }
+    }
+    
+ 
     bool canBuyThisLunchBox =
-            activeUser.BuyThisLunchBox(Convert.ToInt32(foodChoice));
+            activeUser.BuyThisLunchBox(foodChoice);
     if (canBuyThisLunchBox)
     {
         Console.WriteLine($"Tack för ditt köp!");        //TODO Lunchlådan hämtas hos xx restaurang
