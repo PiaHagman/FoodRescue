@@ -3,6 +3,7 @@ using DataLayer.Backend;
 using DataLayer.Model;
 using DataLayer.Data;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace TestRestaurantClient
 {
@@ -14,7 +15,6 @@ namespace TestRestaurantClient
         public TestRestaurantClientTestsuit()
         {
             _restaurantBackend = new RestaurantBackend();
-
         }
 
         //private Resta
@@ -28,15 +28,19 @@ namespace TestRestaurantClient
             var AsianDeliConversion = _restaurantBackend.FindObjectById(AsianDeli);
             var unsoldFoodboxes = _restaurantBackend.GetUnsoldLB(AsianDeliConversion);
 
-
             //ACT
-             _restaurantBackend.AddLunchBox("PoyasTestBox", "vego", 40.00m, AsianDeliConversion);
 
-
+            _restaurantBackend.AddLunchBox("PoyasTestBox", "vego", 40.00m, AsianDeliConversion);
+        
             // Assert
 
-            Assert.Contains(unsoldFoodboxes, a => a.DishName == "PoyasTestBox" && a.Restaurant == AsianDeliConversion);
-            
+            Assert.Contains(unsoldFoodboxes, a => a.DishName == "PoyasTestBox");
+          //  Assert.All(unsoldFoodboxes, box => box.DishName "");
+           //Assert.Equal(unsoldFoodboxes[]);
         }
+
+ //       [Fact]
+        
+
     }
 }
