@@ -3,8 +3,6 @@ using DataLayer.Backend;
 using DataLayer.Model;
 using RestaurantClient;
 
-
-
 FrontEndHandler frontEndHandler = new FrontEndHandler();
 
 while (true)
@@ -31,6 +29,14 @@ while (true)
             frontEndHandler.AddNewFoodbox();
             frontEndHandler.GetUnsoldFoodboxesSpecifikRestaurant();
 
+            break;
+
+        case "X":
+            Environment.Exit(1);
+            break;
+
+        default:
+            Console.WriteLine("If you want to exit: Press \"X\"\n");
             break;
 
     }
