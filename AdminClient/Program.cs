@@ -37,6 +37,11 @@
                 Console.WriteLine("Kunder Food Rescue:\n");
                 foreach (var infoUser in admin.GetUsers())
                 {
+                    if (infoUser.PersonalInfo == null)
+                    {
+                        Console.WriteLine($"Id: {infoUser.Id}, Personlig information saknas.");
+                    }
+                    else
                         Console.WriteLine
                         ($"Id: {infoUser.Id}, Namn: {infoUser.PersonalInfo.FullName}, Användarnamn: {infoUser.PersonalInfo.Username}, Lösenord: {infoUser.PersonalInfo.Password}, Email: {infoUser.PersonalInfo.Email}");
                 }
@@ -46,7 +51,7 @@
             #endregion
 
             #region case 2: Radera en kund 
-                // TODO Blir en bugg när Se alla kunder ska köras efter radering av kund
+            // TODO Blir en bugg när Se alla kunder ska köras efter radering av kund
 
             case "2":
 
@@ -142,13 +147,13 @@
             #region case 0: Reset database
 
             case "0":
-            {
-                exit = false;
-                break;
-                
-            }
+                {
+                    exit = false;
+                    break;
 
-            #endregion
+                }
+
+                #endregion
 
 
         }
