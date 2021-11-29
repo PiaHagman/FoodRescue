@@ -17,7 +17,7 @@ namespace TestAdminClient
             //AdminBackend admin = new AdminBackend();
             //admin.CreateAndSeedDb();
 
-            _AdminBackend.CreateAndSeedDb(); // Fungerar denna? Den ör lite kortare.
+            _AdminBackend.CreateAndSeedDb(); // Fungerar denna? Den är lite kortare.
 
         }
 
