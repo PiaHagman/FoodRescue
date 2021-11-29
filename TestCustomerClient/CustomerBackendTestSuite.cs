@@ -5,38 +5,46 @@ using System.Text.Json.Serialization;
 using DataLayer.Backend;
 using DataLayer.Data;
 using DataLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace TestCustomerClient
 {
     public class CustomerBackendTestSuite
     {
-        private UserBackend _userBackend;
+        //private UserBackend _userBackend;
+        private DbContextOptions options;
+        private UserBackend userBackend;
 
         public CustomerBackendTestSuite()
         {
-            _userBackend = new UserBackend();
+            
+            var optionBuilder = new DbContextOptionsBuilder();
 
-            //Skapar om databasen inför varje test
-            AdminBackend admin = new AdminBackend();
-            admin.CreateAndSeedDb();
+            optionBuilder.UseSqlServer(
+                @"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb");
+
+            options = optionBuilder.Options;
+            userBackend = new UserBackend(optionBuilder.Options);
+
+            var database = new Database(options);
+            database.Recreate();
+            database.SeedTestData();
         }
 
 
         [Fact]
         void RegisterAndLoginNewUserTest()
         {
-
-            //TODO Kolla mot databas istället
-
+            
             //Resistrerar ny kund
-            UserBackend.CreateUser("Jon Krantz", "jon.krantz", "HelloWorld1",
+            userBackend.CreateUser("Jon Krantz", "jon.krantz", "HelloWorld1",
                  "krantz.jon@gmail.com");
 
             //Provar att logga in den nya kunden, samt några felaktiga inloggningsförsök
-            var loggedInUser = UserBackend.TryLogin("jon.krantz", "HelloWorld1");
-            var userIsNull = UserBackend.TryLogin("karin.holm", "HelloWorld1");
-            var existingUsernameWrongPassword = UserBackend.TryLogin("jon.krantz", "Hello");
+            var loggedInUser = userBackend.TryLogin("jon.krantz", "HelloWorld1");
+            var userIsNull = userBackend.TryLogin("karin.holm", "HelloWorld1");
+            var existingUsernameWrongPassword = userBackend.TryLogin("jon.krantz", "Hello");
 
             Assert.NotNull(loggedInUser);
             Assert.Null(userIsNull);
@@ -54,26 +62,27 @@ namespace TestCustomerClient
         {
             
             //Logga in en befintlig användare som ska användas för köp
-            var user = UserBackend.TryLogin("pia.hagman", "HelloWorld1");
+            var user = userBackend.TryLogin("pia.hagman", "HelloWorld1");
 
-            //objektet skickas in i UserBackend för att användas vid köpet
-            UserBackend activeUser = new UserBackend(user);
-
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             var lunchBox = ctx.LunchBoxes.Find(1);
 
             //Köp den lunchbox vi plockat ut från databasen
-            LunchBox lunchBoxObject = activeUser.BuyThisLunchBox(lunchBox.Id);
+            if (lunchBox != null)
+            {
+                LunchBox lunchBoxObject = userBackend.BuyThisLunchBox(lunchBox.Id, user);
 
-            Assert.NotNull(lunchBoxObject);
-            Assert.Equal(lunchBox.DishName, lunchBoxObject.DishName);
+                Assert.NotNull(lunchBoxObject);
+                Assert.Equal(lunchBox.DishName, lunchBoxObject.DishName);
+           
 
             //Försök köpa samma lunchbox igen, få null tillbaka
-            var luncBoxIsNull = activeUser.BuyThisLunchBox(lunchBox.Id);
-            Assert.Null(luncBoxIsNull);
+            var lunchBoxIsNull = userBackend.BuyThisLunchBox(lunchBox.Id, user);
+            Assert.Null(lunchBoxIsNull);
+            }
 
             //Prova att köpa en lunchbox med ett id som inte finns, få null tillbaka
-            var lunchBoxDoesntExist = activeUser.BuyThisLunchBox(20);
+            var lunchBoxDoesntExist = userBackend.BuyThisLunchBox(20, user);
             Assert.Null(lunchBoxDoesntExist);
         }
 
@@ -82,12 +91,9 @@ namespace TestCustomerClient
         void GetBoughtBoxesTest()
         {
             //Logga in en befintlig användare som ska användas för köp
-            var user = UserBackend.TryLogin("pia.hagman", "HelloWorld1");
+            var user = userBackend.TryLogin("pia.hagman", "HelloWorld1");
 
-            //objektet skickas in i UserBackend för att användas vid köpet
-            UserBackend activeUser = new UserBackend(user);
-
-            var boughtBoxes= activeUser.GetBoughtBoxes();
+            var boughtBoxes= userBackend.GetBoughtBoxes(user);
 
             //Kontrollera att de ItemSales som tillhör pia.hagman återfinns i listan och andra inte
             Assert.Contains(boughtBoxes, i => i.Id == 1 || i.Id == 2);

@@ -12,22 +12,16 @@ namespace DataLayer.Backend
 {
     public class RestaurantBackend
     {
-        private int _restaurantId;
-
-        public RestaurantBackend()
+        private DbContextOptions options;
+        public RestaurantBackend(DbContextOptions options)
         {
-      
-        }
-        //Använder inte denna konstruktor för tillfället...
-        public RestaurantBackend(Restaurant restaurant)
-        {
-            _restaurantId = restaurant.Id;
+            this.options = options;
         }
 
         #region FindObjectById()
         public Restaurant FindObjectById(int restaurantId)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             var queryFindRestaurant = ctx
                 .Restaurants
                 .Where(r => r.Id == restaurantId);
@@ -46,7 +40,7 @@ namespace DataLayer.Backend
         #region GetSoldLB()
         public List<LunchBox> GetSoldLB(Restaurant restaurant)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             List<LunchBox> getSoldLbs = 
                 ctx.LunchBoxes
                     .Where(lb => lb.Restaurant.Id == restaurant.Id && lb.ItemSale != null)
@@ -60,7 +54,7 @@ namespace DataLayer.Backend
         
         public void AddLunchBox(string dishname, string dishtype, decimal price, Restaurant restaurant)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             restaurant = ctx.Restaurants.Find(restaurant.Id);
 
             ctx.LunchBoxes.Add(new LunchBox { DishName=dishname, DishType=dishtype, Price=price, Restaurant=restaurant });
@@ -72,7 +66,7 @@ namespace DataLayer.Backend
 
         public decimal GetIncomePerMonth(int month, Restaurant restaurant)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             restaurant = ctx.Restaurants.Find(restaurant.Id);
 
             var totalIncome = ctx.LunchBoxes

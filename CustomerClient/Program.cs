@@ -1,15 +1,21 @@
 ﻿using DataLayer.Backend;
 using DataLayer.Model;
+using Microsoft.EntityFrameworkCore;
 
-AdminBackend admin = new AdminBackend();
-admin.CreateAndSeedDb();
+var optionBuilder = new DbContextOptionsBuilder();
+optionBuilder.UseSqlServer(
+    @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
+
 Console.WriteLine("Database initialized");
-Thread.Sleep(2000);
+Thread.Sleep(1000);
+var userBackend = new UserBackend(optionBuilder.Options);
+
 
 while (true)
 {
     try
     {
+        
         MainProgramLoop();
     }
     catch
@@ -51,25 +57,30 @@ void MainProgramLoop()
 #region Hjälpmetod SeeAndBuyLunchBox
 void SeeAndBuyLunchbox(User user)
 {
-    UserBackend activeUser = new UserBackend(user);
     Console.Clear();
     Console.WriteLine("Lunchlådor Food Rescue:");
     Console.WriteLine("\nAnge önskad diet - Vego/kött/fisk:");
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
     var diet = Console.ReadLine().ToLower();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
     while (diet != "vego" && diet != "fisk" && diet != "kött")
     {
         Console.WriteLine("Vänligen ange vego, fisk eller kött:");
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         diet = Console.ReadLine().ToLower();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
     Console.WriteLine("\nTillgänliga Lunchlådor:");
-    if (activeUser.GetAvailableLunchBoxes(diet).Count == 0)
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+    if (userBackend.GetAvailableLunchBoxes(diet).Count == 0)
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     {
         Console.WriteLine($"Det finns tyvärr inga tillgängliga lunchlådor i kategorin {diet}.");
         Console.ReadLine();
         return;
     }
-    foreach (var lb in activeUser.GetAvailableLunchBoxes(diet))
+    foreach (var lb in userBackend.GetAvailableLunchBoxes(diet))
     {
         Console.WriteLine($"{lb.DishName}, {Decimal.Round(lb.Price)} kronor, {lb.Restaurant.Name}, Köp-ID: {lb.Id}");
     }
@@ -99,7 +110,7 @@ void SeeAndBuyLunchbox(User user)
     
  
     LunchBox lunchBoxToBuy =
-            activeUser.BuyThisLunchBox(foodChoice);
+            userBackend.BuyThisLunchBox(foodChoice, user);
     if (lunchBoxToBuy != null)
     {
         Console.WriteLine($"Tack för ditt köp av {lunchBoxToBuy.DishName}. Lunchlådan kan hämtas hos {lunchBoxToBuy.Restaurant.Name}.");        //TODO Lunchlådan hämtas hos xx restaurang
@@ -116,15 +127,14 @@ void SeeAndBuyLunchbox(User user)
 #region Hjälpmetod SeePreviousOrders()
 void SeePreviousOrders(User user)
 {
-    UserBackend activeUser = new UserBackend(user);
     Console.Clear();
     Console.WriteLine("Dina tidigare köp:");
 
-    if (activeUser.GetBoughtBoxes().Count == 0)
+    if (userBackend.GetBoughtBoxes(user).Count == 0)
     {
         Console.WriteLine("Du har inte gjort några tidigare köp.");
     }
-    foreach (var i in activeUser.GetBoughtBoxes())
+    foreach (var i in userBackend.GetBoughtBoxes(user))
     {
         
         Console.WriteLine($"\nOrdernummer: {i.Id}, Orderdatum: {i.SalesDate}");
@@ -155,10 +165,10 @@ void RegisterUser()
     Console.WriteLine("Ange din mejladress");
     var mail = Console.ReadLine();
 
-    UserBackend.CreateUser(name, userName, passWord, mail);
+    
+    userBackend.CreateUser(name, userName, passWord, mail);
 
-    //Skapar en inloggad användare som skickar tillbaka
-    var user = UserBackend.TryLogin(userName, passWord);
+    var user = userBackend.TryLogin(userName, passWord);
 
     if (user == null)
     {
@@ -210,7 +220,7 @@ void Login()
     Console.WriteLine("Ange lösenord:");
     var password = Console.ReadLine();
 
-    var user = UserBackend.TryLogin(username, password);
+    var user = userBackend.TryLogin(username, password);
 
     if (user == null)
     {
