@@ -35,9 +35,11 @@ namespace DataLayer.Data
                 .HasDefaultValue(DateTime.Today);
         }
 
+        public FoodRescueDbContext(DbContextOptions options) : base(options){}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst");
+            
+            //optionsBuilder.UseSqlServer(@"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst");
         }
 
         #region TestData i listor för att seeda tabeller

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Dynamic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using DataLayer;
 using DataLayer.Backend;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminClient1
 {
@@ -9,25 +12,37 @@ namespace AdminClient1
     {
         static void Main(string[] args)
         {
-            AdminBackend admin = new AdminBackend();
-            admin.CreateAndSeedDb();
-            Console.WriteLine("Database initialized");
-            Thread.Sleep(2000);
+            //AdminBackend admin = new AdminBackend();
+            //admin.CreateAndSeedDb();
+            //Console.WriteLine("Database initialized");
+            //Thread.Sleep(2000);
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Vänligen logga in med Användarnamn/Epost och Lösenord.");
+                Console.WriteLine("Inlogg Admin");
                 Console.WriteLine();
+                Console.Write("Användarnamn/Epost: ");
+                var userName = Console.ReadLine();
                 Console.WriteLine();
-                Console.WriteLine("Användarnamn/Epost: ");
-                var user = Console.ReadLine();
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("Lösenord: ");
+                Console.Write("Lösenord: ");
                 var password = Console.ReadLine();
+
+                var user = UserBackend.TryLogin(userName, password);
+
+                try
+                {
+                    var optionsBuilder = new DbContextOptionsBuilder();
+                    optionsBuilder.UseSqlServer(
+                        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst_OffLine");
+
+                }
+                catch (Exception)
+                {
+
+                }
 
             }
         }
