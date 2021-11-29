@@ -4,6 +4,7 @@ using DataLayer.Model;
 using DataLayer.Data;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace TestRestaurantClient
@@ -11,13 +12,24 @@ namespace TestRestaurantClient
     public class TestRestaurantClientTestsuit
     {
 
+        private DbContextOptions options;
         private RestaurantBackend _restaurantBackend;
 
         public TestRestaurantClientTestsuit()
         {
-            _restaurantBackend = new RestaurantBackend();
-        }
 
+            var optionBuilder = new DbContextOptionsBuilder();
+
+            optionBuilder.UseSqlServer(
+                @"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb");
+
+            options = optionBuilder.Options;
+            _restaurantBackend = new RestaurantBackend(optionBuilder.Options);
+
+            var database = new Database(options);
+            database.Recreate();
+            database.SeedTestData();
+        }
         // Test för att lägga till en lunchlåda
 
         [Fact]

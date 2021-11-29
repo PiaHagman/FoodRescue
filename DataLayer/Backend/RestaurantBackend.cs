@@ -22,7 +22,7 @@ namespace DataLayer.Backend
 
         public List <LunchBox> GetUnsoldLB(Restaurant restaurant)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
 
             List <LunchBox> getUnsoldLbs = ctx.LunchBoxes.Where(lb => lb.Restaurant.Id == restaurant.Id && lb.ItemSale == null).ToList();
 
