@@ -6,6 +6,11 @@ var optionBuilder = new DbContextOptionsBuilder();
 optionBuilder.UseSqlServer(
     @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
 
+var database = new Database(optionBuilder.Options);
+database.Recreate();
+//database.SeedLiveData(); Används i verkligheten
+database.SeedTestData(); //Används inte i skarpt läge
+
 Console.WriteLine("Database initialized");
 Thread.Sleep(1000);
 var userBackend = new UserBackend(optionBuilder.Options);

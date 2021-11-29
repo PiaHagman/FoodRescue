@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Backend
 {
-    internal class Program
+    internal class Program //vad fyller denna för funktion?
     {
         internal static void Main()
         {
@@ -22,3 +22,4 @@ namespace DataLayer.Backend
         }
     }
 }
+
