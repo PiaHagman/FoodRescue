@@ -3,6 +3,7 @@ using DataLayer.Backend;
 using DataLayer.Model;
 using DataLayer.Data;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace TestRestaurantClient
@@ -17,29 +18,42 @@ namespace TestRestaurantClient
             _restaurantBackend = new RestaurantBackend();
         }
 
-        //private Resta
+        // Test för att lägga till en lunchlåda
 
         [Fact]
         public void TestAddLunchBox()
         {
             //Arrange
 
-            int AsianDeli = 1;
-            var AsianDeliConversion = _restaurantBackend.FindObjectById(AsianDeli);
-            var unsoldFoodboxes = _restaurantBackend.GetUnsoldLB(AsianDeliConversion);
+            int asianDeli = 1;
+            var asianDeliConversion = _restaurantBackend.FindObjectById(asianDeli);
+            var unsoldLunchboxes = _restaurantBackend.GetUnsoldLB(asianDeliConversion);
 
             //ACT
 
-            _restaurantBackend.AddLunchBox("PoyasTestBox", "vego", 40.00m, AsianDeliConversion);
-        
+            _restaurantBackend.AddLunchBox("PoyasTestBox", "vego", 40.00m, asianDeliConversion);
+
             // Assert
 
-            Assert.Contains(unsoldFoodboxes, a => a.DishName == "PoyasTestBox");
-          //  Assert.All(unsoldFoodboxes, box => box.DishName "");
-           //Assert.Equal(unsoldFoodboxes[]);
+            Assert.Contains(unsoldLunchboxes, a => a.DishName == "PoyasTestBox");
+
         }
 
- //       [Fact]
+        // Test för att
+
+        [Fact]
+
+        public void TestUnsoldLunchboxes()
+        {
+
+            //Arrange
+            int AsianDeli = 1;
+            var AsianDeliConversion = _restaurantBackend.FindObjectById(AsianDeli);
+            var unsoldLunchboxes = _restaurantBackend.GetUnsoldLB(AsianDeliConversion);
+
+            Assert.NotEmpty(unsoldLunchboxes);
+
+        }
         
 
     }

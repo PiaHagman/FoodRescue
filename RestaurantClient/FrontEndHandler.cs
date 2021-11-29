@@ -10,15 +10,14 @@ namespace RestaurantClient
 {
     public class FrontEndHandler
     {
-
         // Meny
 
         public void Menu(){
 
-            Console.WriteLine("Choose your options: \n");
-            Console.WriteLine("Get your sold Foodboxes");
-            Console.WriteLine("Get your unsold Foodboxes");
-            Console.WriteLine("Add a foodbox");
+            Console.WriteLine("\tChoose your options: \n");
+            Console.WriteLine("1# Get your sold Foodboxes");
+            Console.WriteLine("2# Get your unsold Foodboxes");
+            Console.WriteLine("3# Add a foodbox");
 
         }
 
@@ -39,6 +38,8 @@ namespace RestaurantClient
                 {
                     Console.WriteLine($"Foodname: {e.DishName}\t Foodtype: {e.DishType}\t Price: {e.Price}");
                 }
+
+                Console.WriteLine("");
         }
 
         // Sålda matlådor
@@ -57,6 +58,8 @@ namespace RestaurantClient
             {
                 Console.WriteLine($"Foodname: {e.DishName}\t Foodtype: {e.DishType}\t Price: {e.Price}");
             }
+            Console.WriteLine("");
+
         }
 
         // Köpa matlåda
@@ -99,7 +102,10 @@ namespace RestaurantClient
             }
 
             restaurantBack.AddLunchBox(dishname, dishtype, price, loggedInRestaurant);
+            Console.WriteLine("");
             Console.WriteLine("Lunchlådan är tillagd!");
+            Console.WriteLine("");
+
         }
 
     }
