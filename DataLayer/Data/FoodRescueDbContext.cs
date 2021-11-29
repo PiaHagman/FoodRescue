@@ -10,13 +10,15 @@ namespace DataLayer.Data
 {
     public class FoodRescueDbContext : DbContext
     {
+        
         public DbSet<User> Users { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<LunchBox> LunchBoxes { get; set; }
         public DbSet<ItemSale> ItemSales { get; set; }
         public DbSet<UserPersonalInfo> PersonalInfo { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) // Skapar databasen, override till DbContext-
+        public FoodRescueDbContext(DbContextOptions options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPersonalInfo>()
                 .HasIndex(e => e.Username).IsUnique();
@@ -37,7 +39,8 @@ namespace DataLayer.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst");
+            // ställer in dbcontext på annat håll via konstruktorn
+            //optionsBuilder.UseSqlServer(@"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst");
         }
 
         #region TestData i listor för att seeda tabeller

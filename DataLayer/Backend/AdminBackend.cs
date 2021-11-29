@@ -13,20 +13,11 @@ namespace DataLayer.Backend
 {
     public class AdminBackend
     {
-        #region CreateAndSeedDb()
-
-        public void CreateAndSeedDb() 
+        private DbContextOptions options;
+        public AdminBackend(DbContextOptions options)
         {
-            using (var ctx = new FoodRescueDbContext())
-            {
-                ctx.Database.EnsureDeleted();
-                ctx.Database.EnsureCreated();
-                ctx.Seed();
-        
-            }
+            this.options = options;
         }
-
-        #endregion
 
         #region GetUsers()
 
@@ -35,6 +26,8 @@ namespace DataLayer.Backend
             using var ctx = new FoodRescueDbContext();
             List<User> getUsers = ctx.Users
                 .Include(u => u.PersonalInfo)
+            using var ctx = new FoodRescueDbContext(options);
+            List<User> getUsers = ctx.Users.Include(u => u.PersonalInfo)
                 .ToList();      
 
             return getUsers;
@@ -46,7 +39,7 @@ namespace DataLayer.Backend
 
         public bool DeleteUser(string username)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
 
             var query = ctx.PersonalInfo
                 .Where(pi => pi.Username == username);
@@ -72,7 +65,7 @@ namespace DataLayer.Backend
 
         public List<Restaurant> GetRestaurants()
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             List <Restaurant> restaurantList = ctx.Restaurants.ToList();
 
             return restaurantList;
@@ -83,7 +76,7 @@ namespace DataLayer.Backend
 
         public void AddRestaurant(string name, string address, string phonenumber)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
 
             ctx.Restaurants.Add(new Restaurant {Name = name, Address = address, PhoneNumber = phonenumber});
             ctx.SaveChanges();

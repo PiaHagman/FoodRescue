@@ -9,20 +9,19 @@ namespace DataLayer.Backend
 {
     public class UserBackend
     {
-
-        private User _user;
-
-        public UserBackend(User user)
+        private DbContextOptions options;
+        public UserBackend(DbContextOptions options)
         {
-            _user = user;
+            this.options = options;
         }
+
 
         #region TryLogin()
 
-        public static User TryLogin(string username, string password)
+        public User TryLogin(string username, string password)
         {
             //kolla om username finns
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             var query = ctx
                 .Users
                 .Include(u => u.PersonalInfo)
@@ -31,7 +30,6 @@ namespace DataLayer.Backend
             var user = query.FirstOrDefault(); //.singleOrDefault skulle fungera bättre om vi inte hade ett unik constraint 
 
             if (user == null) return null;
-            
 
             if (user.PersonalInfo.Password == password) return user;
             
@@ -43,12 +41,12 @@ namespace DataLayer.Backend
 
         #region GetAvailableLunchBoxes()
 
-        public List<LunchBox> GetAvailableLunchBoxes(string dishtype)
+        public List<LunchBox> GetAvailableLunchBoxes(string dishType)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             var lunchBoxes = ctx.LunchBoxes
                 .Include(lb => lb.Restaurant)
-                .Where(lb => lb.DishType == dishtype && lb.ItemSale == null)
+                .Where(lb => lb.DishType == dishType && lb.ItemSale == null)
                 .OrderBy(lb => lb.Price);
 
             return lunchBoxes.ToList();
@@ -57,45 +55,51 @@ namespace DataLayer.Backend
         #endregion
 
         #region BuyThisLunchBox()
-        public bool BuyThisLunchBox(int lunchboxid)
+        public LunchBox BuyThisLunchBox(int lunchBoxId, User user)
         {
-            using var ctx = new FoodRescueDbContext();
-            var lunchBox = ctx.LunchBoxes.Find(lunchboxid);
-            _user = ctx.Users.Find(_user.Id);
+            using var ctx = new FoodRescueDbContext(options);
+            var availableLunchBoxes = ctx.LunchBoxes
+                .Include(lb => lb.Restaurant)
+                .Where(lb => lb.ItemSale == null && lb.Id==lunchBoxId);
+
+            var lunchBox = availableLunchBoxes.FirstOrDefault();
+
+            user = ctx.Users.Find(user.Id);
 
             bool lunchBoxExists = lunchBox != null;
             
             if (lunchBoxExists)
             {
-                ctx.ItemSales.Add(new ItemSale { SalesDate = DateTime.Today, LunchBoxes = new[] { lunchBox }, User = _user });
+                ctx.ItemSales.Add(new ItemSale { SalesDate = DateTime.Today, LunchBoxes = new[] { lunchBox }, User = user });
                 ctx.SaveChanges();
 
-                return true;
+                return lunchBox;
             }
-            return false;
+            return null;
         }
 
         #endregion
 
         #region GetBoughtBoxes()
-        public List<ItemSale> GetBoughtBoxes()
+        public List<ItemSale> GetBoughtBoxes(User user)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
 
             List<ItemSale> boughtBoxes = 
                 ctx.ItemSales
                     .Include(i => i.LunchBoxes)
                     .ThenInclude(lb => lb.Restaurant)
-                    .Where(lb => lb.User.Id == _user.Id).ToList();
+                    .Where(lb => lb.User.Id == user.Id).ToList();
 
             return boughtBoxes;
         }
+        #endregion
 
-        public static void CreateUser(string fullname, string username, string password, string email)
+        #region CreateUser()
+
+        public void CreateUser(string fullname, string username, string password, string email)
         {
-            using var ctx = new FoodRescueDbContext();
-
-            //var query = ctx.Users;
+            using var ctx = new FoodRescueDbContext(options);
 
             ctx.PersonalInfo.Add(new()
                 {FullName = fullname, Username = username, Password = password, Email = email, User = new User()});
@@ -104,8 +108,10 @@ namespace DataLayer.Backend
             
         }
 
-
-
         #endregion
+
+
+
+        
     }
 }
