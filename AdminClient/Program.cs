@@ -1,5 +1,6 @@
 ﻿using DataLayer.Backend;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 // TODO Flytta ut Se alla kunder till egen metod
 
@@ -19,6 +20,8 @@ using Microsoft.EntityFrameworkCore;
     var userBackend = new UserBackend(optionBuilder.Options);
     Console.WriteLine("Database initialized\n");
     //Thread.Sleep(2000);
+
+    AdminBackend admin = new AdminBackend(optionBuilder.Options);
 
     bool exit = true; // Skapar en Exit för programmet
     while (exit)
@@ -154,7 +157,7 @@ using Microsoft.EntityFrameworkCore;
             #endregion
 
 
-            #region case 0: Reset database
+            #region case 0: Exit program
 
             case "0":
                 {
