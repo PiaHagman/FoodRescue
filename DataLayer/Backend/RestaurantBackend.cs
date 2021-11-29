@@ -18,6 +18,18 @@ namespace DataLayer.Backend
             this.options = options;
         }
 
+        //titta på alla osålda matlådor för dennes restaurang
+
+        public List <LunchBox> GetUnsoldLB(Restaurant restaurant)
+        {
+            using var ctx = new FoodRescueDbContext();
+
+            List <LunchBox> getUnsoldLbs = ctx.LunchBoxes.Where(lb => lb.Restaurant.Id == restaurant.Id && lb.ItemSale == null).ToList();
+
+            return getUnsoldLbs;
+
+        }
+
         #region FindObjectById()
         public Restaurant FindObjectById(int restaurantId)
         {
