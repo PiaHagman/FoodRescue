@@ -6,11 +6,10 @@
     //Skapa och seeda databasen
     AdminBackend admin = new AdminBackend();
     admin.CreateAndSeedDb();
-    Console.WriteLine("Database initialized");
+    Console.WriteLine("Database initialized\n");
     //Thread.Sleep(2000);
 
-    Console.WriteLine();
-    bool exit = true; // HÄR UTVECKLA
+    bool exit = true; // Skapar en Exit för programmet
     while (exit)
     {
         #region Meny Admin
@@ -51,7 +50,6 @@
             #endregion
 
             #region case 2: Radera en kund 
-            // TODO Blir en bugg när Se alla kunder ska köras efter radering av kund
 
             case "2":
 
