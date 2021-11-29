@@ -23,11 +23,9 @@ namespace DataLayer.Backend
 
         public List<User> GetUsers()
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             List<User> getUsers = ctx.Users
                 .Include(u => u.PersonalInfo)
-            using var ctx = new FoodRescueDbContext(options);
-            List<User> getUsers = ctx.Users.Include(u => u.PersonalInfo)
                 .ToList();      
 
             return getUsers;

@@ -1,11 +1,22 @@
 ﻿using DataLayer.Backend;
+using Microsoft.EntityFrameworkCore;
 
 // TODO Flytta ut Se alla kunder till egen metod
 
 {
     //Skapa och seeda databasen
-    AdminBackend admin = new AdminBackend();
-    admin.CreateAndSeedDb();
+    var optionBuilder = new DbContextOptionsBuilder();
+    optionBuilder.UseSqlServer(
+        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
+
+    var database = new Database(optionBuilder.Options);
+    database.Recreate();
+    //database.SeedLiveData(); Används i verkligheten
+    database.SeedTestData(); //Används inte i skarpt läge
+
+    Console.WriteLine("Database initialized");
+    Thread.Sleep(1000);
+    var userBackend = new UserBackend(optionBuilder.Options);
     Console.WriteLine("Database initialized\n");
     //Thread.Sleep(2000);
 
@@ -126,7 +137,7 @@
 
                 if (resetDatabase.ToLower() == "ja")
                 {
-                    admin.CreateAndSeedDb();
+                    database.SeedTestData();
                     Console.WriteLine("Databasen har återställts.");
                 }
                 else
