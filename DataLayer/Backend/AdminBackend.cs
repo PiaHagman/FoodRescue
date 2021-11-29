@@ -30,7 +30,6 @@ namespace DataLayer.Backend
 
         #region GetUsers()
 
-        //Kanske inte så snyggt att hämta hela tabellen utan select, men detta för att ha en metod som är gångbar i flera situationer. 
         public List<User> GetUsers()
         {
             using var ctx = new FoodRescueDbContext();

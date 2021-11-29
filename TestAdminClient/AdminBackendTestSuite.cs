@@ -5,13 +5,13 @@ using Xunit;
 
 namespace TestAdminClient
 {
-    public class RestaurantBackendTestSuite
+    public class AdminBackendTestSuite
     {
         private AdminBackend _AdminBackend;
 
-        public RestaurantBackendTestSuite()
+        public AdminBackendTestSuite()
         {
-            _AdminBackend = new AdminBackend();  // TODO Anslutningen stängs inte ner efter testet
+            _AdminBackend = new AdminBackend();  // Anslutningen stängs inte ner efter testet. Inga problem enligt Björn.
 
             //Skapar om databasen inför varje test
             //AdminBackend admin = new AdminBackend();
