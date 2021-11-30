@@ -7,7 +7,7 @@ using DataLayer.Backend;
 using DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminClient1
+namespace AdminClient
 {
     public class Program
     {
