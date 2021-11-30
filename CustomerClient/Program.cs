@@ -118,7 +118,7 @@ void SeeAndBuyLunchbox(User user)
             userBackend.BuyThisLunchBox(foodChoice, user);
     if (lunchBoxToBuy != null)
     {
-        Console.WriteLine($"Tack för ditt köp av {lunchBoxToBuy.DishName}. Lunchlådan kan hämtas hos {lunchBoxToBuy.Restaurant.Name}.");        //TODO Lunchlådan hämtas hos xx restaurang
+        Console.WriteLine($"Tack för ditt köp av {lunchBoxToBuy.DishName}. Lunchlådan kan hämtas hos {lunchBoxToBuy.Restaurant.Name}.");
     }
     else
     {
@@ -195,7 +195,7 @@ void ProgramLoopLoggedInCust(User user)
         Console.WriteLine("Välkommen " + user.PersonalInfo.FullName + "!");
         Console.WriteLine("Vad vill du göra? Välj 1 eller 2:");
         Console.WriteLine("\n1. Se och köpa tillgängliga lunchlådor");
-        Console.WriteLine("2. Se dina tidigare köp"); //TODO Dela upp i undermeny, baserat på ordernummer, eller alla, totala ordersumman 
+        Console.WriteLine("2. Se dina tidigare köp");
 
         var choiceLoggedIn = Console.ReadLine();
 

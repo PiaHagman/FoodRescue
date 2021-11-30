@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-// TODO Flytta ut Se alla kunder till egen metod
+// // TOD Flytta ut Se alla kunder till egen metod
 
 {
     //Skapa och seeda databasen
     var optionBuilder = new DbContextOptionsBuilder();
     optionBuilder.UseSqlServer(
-        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
+        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb"); // TODO Ändrade till Test. Annars skapas bara LiveDB
 
     var database = new Database(optionBuilder.Options);
     database.Recreate();
@@ -64,7 +64,6 @@ using Microsoft.Extensions.Options;
             #endregion
 
             #region case 2: Radera en kund 
-                // TODO Blir en bugg när Se alla kunder ska köras efter radering av kund
 
             case "2":
 
@@ -140,6 +139,8 @@ using Microsoft.Extensions.Options;
 
                 if (resetDatabase.ToLower() == "ja")
                 {
+                    database.Recreate();
+
                     database.SeedTestData();
                     Console.WriteLine("Databasen har återställts.");
                 }
@@ -155,7 +156,6 @@ using Microsoft.Extensions.Options;
                 Console.WriteLine("Vänligen ange en siffra mellan 1-5:");
                 break;
             #endregion
-
 
             #region case 0: Exit program
 
