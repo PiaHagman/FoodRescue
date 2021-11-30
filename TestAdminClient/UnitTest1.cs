@@ -1,13 +1,36 @@
+using DataLayer.Backend;
+using Microsoft.EntityFrameworkCore;
+using TestCustomerClient;
 using Xunit;
+
 
 namespace TestAdminClient
 {
-    public class UnitTest1
+    public class AdminLoginTestSuite
     {
+        private DbContextOptions options;
+        private UserBackend userBackend;
+
+        public AdminLoginTestSuite()
+        {
+            var optionBuilder = new DbContextOptionsBuilder();
+
+            optionBuilder.UseSqlServer(
+                @"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb");
+
+            options = optionBuilder.Options;
+            userBackend = new UserBackend(optionBuilder.Options);
+
+            var database = new Database(options);
+            database.Recreate();
+            database.SeedTestData();
+        }
         [Fact]
-        public void Test1()
+        void LoginTest()
         {
 
         }
+
     }
+
 }

@@ -38,27 +38,23 @@ namespace AdminClient
                 var password = Console.ReadLine();
                 var user = userBackend.TryLogin(userName, password);
 
-                try
+                if (user == null)
                 {
-                   
-
+                    Console.WriteLine("Login misslyckades!");
+                    Console.ReadLine();
                 }
-                catch (Exception)
-                {
-
-                }
+                else { ProgramLoopLogin(user); }
 
 
             }
 
         }
-
-        public static void ProgramLoopLogin(UserPersonalInfo user)
+        public static void ProgramLoopLogin(User user)
         {
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine($"Hej och välkommen {user.FullName}!");
+                Console.WriteLine($"Hej och välkommen {user.PersonalInfo.FullName}!");
             }
         }
     }
