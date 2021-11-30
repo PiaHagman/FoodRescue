@@ -28,6 +28,11 @@ namespace TestAdminClient
         [Fact]
         void LoginTest()
         {
+            var loginTestCorrect = userBackend.TryLogin("pia.hagman", "HelloWorld1");
+            Assert.Equal("Pia Hagman", loginTestCorrect.PersonalInfo.FullName);
+
+            var loginTestWrong = userBackend.TryLogin("gustav.alverus", "HelloWorld1");
+            Assert.Null(loginTestWrong);
 
         }
 

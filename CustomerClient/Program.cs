@@ -187,6 +187,7 @@ void RegisterUser()
 #endregion
 
 #region ProgramLoopLoggedInCust()
+
 void ProgramLoopLoggedInCust(User user)
 {
     while (true)
