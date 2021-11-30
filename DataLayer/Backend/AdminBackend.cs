@@ -13,27 +13,18 @@ namespace DataLayer.Backend
 {
     public class AdminBackend
     {
-        #region CreateAndSeedDb()
-
-        public void CreateAndSeedDb() 
+        private DbContextOptions options;
+        public AdminBackend(DbContextOptions options)
         {
-            using (var ctx = new FoodRescueDbContext())
-            {
-                ctx.Database.EnsureDeleted();
-                ctx.Database.EnsureCreated();
-                ctx.Seed();
-        
-            }
+            this.options = options;
         }
-
-        #endregion
 
         #region GetUsers()
 
         //Kanske inte så snyggt att hämta hela tabellen utan select, men detta för att ha en metod som är gångbar i flera situationer. 
         public List<User> GetUsers()
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             List<User> getUsers = ctx.Users.Include(u => u.PersonalInfo)
                 .ToList();      
 
@@ -46,7 +37,7 @@ namespace DataLayer.Backend
 
         public bool DeleteUser(string username)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
 
             var query = ctx.PersonalInfo
                 .Where(pi => pi.Username == username);
@@ -72,7 +63,7 @@ namespace DataLayer.Backend
 
         public List<Restaurant> GetRestaurants()
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             List <Restaurant> restaurantList = ctx.Restaurants.ToList();
 
             return restaurantList;
@@ -83,7 +74,7 @@ namespace DataLayer.Backend
 
         public void AddRestaurant(string name, string address, string phonenumber)
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
 
             ctx.Restaurants.Add(new Restaurant {Name = name, Address = address, PhoneNumber = phonenumber});
             ctx.SaveChanges();
@@ -95,7 +86,7 @@ namespace DataLayer.Backend
 
         public List<LunchBox> GetExpiredLunchBoxes()
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             var queryGetExpiredLunchBoxes = ctx
                 .LunchBoxes
                 .Where(l => l.ConsumeBefore < DateTime.Today && l.ItemSale == null);
@@ -109,7 +100,7 @@ namespace DataLayer.Backend
         #region DeleteLunchBoxes()
         public void DeleteLunchBoxes()
         {
-            using var ctx = new FoodRescueDbContext();
+            using var ctx = new FoodRescueDbContext(options);
             var queryGetExpiredLunchBoxes = ctx
                 .LunchBoxes
                 .Where(l => l.ConsumeBefore > DateTime.Today && l.ItemSale == null);

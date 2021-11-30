@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.IO.Enumeration;
 using System.Runtime.InteropServices;
@@ -245,8 +245,10 @@ namespace ConsoleApp
                                     Console.WriteLine("Ange lösenord:");
                                     var password = Console.ReadLine();
 
+                                    //try 
                                     var user = UserBackend.TryLogin(username, password);
 
+                                    //catch
                                     if (user == null)
                                     {
                                         Console.WriteLine("Login misslyckades!");
@@ -301,7 +303,7 @@ namespace ConsoleApp
                                                     Console.WriteLine("\nKöp en lunchlåda genom att ange dess Köp-ID:");
                                                     var foodChoice = Console.ReadLine();
 
-                                                    bool canBuyThisLunchBox =
+                                                    *//*bool canBuyThisLunchBox =
                                                             activeUser.BuyThisLunchBox(Convert.ToInt32(foodChoice));
                                                     if (canBuyThisLunchBox)
                                                     {
@@ -313,7 +315,7 @@ namespace ConsoleApp
                                                         Console.WriteLine("Matlådan kan inte köpas, vänligen ange ett nytt Köp-ID.");
                                                     }
 
-                                                    Console.ReadLine();
+                                                    Console.ReadLine();*//*
                                                     break;
 
                                                 #endregion
@@ -520,4 +522,4 @@ namespace ConsoleApp
         }
     }
 
-}
+}*/
