@@ -4,13 +4,14 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using DataLayer;
 using DataLayer.Backend;
+using DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdminClient1
 {
     public class Program
     {
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
             //AdminBackend admin = new AdminBackend();
             //admin.CreateAndSeedDb();
@@ -30,13 +31,16 @@ namespace AdminClient1
                 Console.Write("Lösenord: ");
                 var password = Console.ReadLine();
 
-                var user = UserBackend.TryLogin(userName, password);
+                //var user = UserBackend.TryLogin(userName, password);
 
                 try
                 {
                     var optionsBuilder = new DbContextOptionsBuilder();
                     optionsBuilder.UseSqlServer(
-                        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst_OffLine");
+                        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst_Live");
+                    var login = new Login(optionsBuilder.Options);
+                    var user = login.User(userName, password);
+                    ProgramLoopLogin(user);
 
                 }
                 catch (Exception)
@@ -44,7 +48,20 @@ namespace AdminClient1
 
                 }
 
+
+            }
+
+        }
+
+        public static void ProgramLoopLogin(UserPersonalInfo user)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"Hej och välkommen {user.FullName}!");
             }
         }
     }
+
+    
 }
