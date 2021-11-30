@@ -9,24 +9,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Backend
 {
-    public class Login
-    {
-        private DbContextOptions options;
+    //public class Login
+    //{
+    //    private DbContextOptions options;
 
-        public Login(DbContextOptions options)
-        {
-            this.options = options;
-        }
+    //    public Login(DbContextOptions options)
+    //    {
+    //        this.options = options;
+    //    }
 
-        public UserPersonalInfo User(string username, string password)
-        {
-            using var ctx = new FoodRescueDbContext(options);
+    //    public UserPersonalInfo User(string username, string password)
+    //    {
+    //        using var ctx = new FoodRescueDbContext(options);
 
-            var query = ctx.Users
-                .Where(user => user. == username);
-            return user;
-        }
+    //        var query = ctx.Users
+    //            .Where(user => user. == username);
+    //        return user;
+    //    }
 
 
-    }
+    //}
 }
