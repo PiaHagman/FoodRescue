@@ -13,12 +13,18 @@ namespace AdminClient
     {
         internal static void Main(string[] args)
         {
-            //AdminBackend admin = new AdminBackend();
-            //admin.CreateAndSeedDb();
-            //Console.WriteLine("Database initialized");
-            //Thread.Sleep(2000);
+            var optionBuilder = new DbContextOptionsBuilder();
+            optionBuilder.UseSqlServer(
+                @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
 
-            //Console.WriteLine();
+            var database = new Database(optionBuilder.Options);
+            database.Recreate();
+            //database.SeedLiveData(); Används i verkligheten
+            database.SeedTestData(); //Används inte i skarpt läge
+
+            Console.WriteLine("Database initialized");
+            Thread.Sleep(1000);
+            var userBackend = new UserBackend(optionBuilder.Options);
 
             while (true)
             {
@@ -30,17 +36,11 @@ namespace AdminClient
                 Console.WriteLine();
                 Console.Write("Lösenord: ");
                 var password = Console.ReadLine();
-
-                //var user = UserBackend.TryLogin(userName, password);
+                var user = userBackend.TryLogin(userName, password);
 
                 try
                 {
-                    var optionsBuilder = new DbContextOptionsBuilder();
-                    optionsBuilder.UseSqlServer(
-                        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst_Live");
-                    var login = new Login(optionsBuilder.Options);
-                    var user = login.User(userName, password);
-                    ProgramLoopLogin(user);
+                   
 
                 }
                 catch (Exception)
