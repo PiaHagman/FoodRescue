@@ -16,7 +16,7 @@ namespace TestAdminClient
             public AdminBackendTestSuite()
             {
 
-                var optionBuilder = new DbContextOptionsBuilder(options);
+                var optionBuilder = new DbContextOptionsBuilder();
 
                 optionBuilder.UseSqlServer(
                     @"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb");
