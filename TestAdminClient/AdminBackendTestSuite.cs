@@ -9,38 +9,33 @@ namespace TestAdminClient
     public class AdminBackendTestSuite
     {
         private DbContextOptions options;
-            private AdminBackend adminBackend;
+        private AdminBackend adminBackend;
 
-            public AdminBackendTestSuite()
-            {
+        public AdminBackendTestSuite()
+        {
+            var optionBuilder = new DbContextOptionsBuilder();
 
-                var optionBuilder = new DbContextOptionsBuilder();
+            optionBuilder.UseSqlServer(@"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb");
 
-                optionBuilder.UseSqlServer(
-                    @"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb");
+            options = optionBuilder.Options;
+            adminBackend = new AdminBackend(optionBuilder.Options);
 
-                options = optionBuilder.Options;
-                adminBackend = new AdminBackend(optionBuilder.Options);
+            var database = new Database(options);
+            database.Recreate();
+            database.SeedTestData();
+        }
 
-                var database = new Database(options);
-                database.Recreate();
-                database.SeedTestData();
-            }
-
-       [Fact]
+        [Fact]
         public void Test_AddRestaurant()
         {
-
-
-            adminBackend.AddRestaurant("Svårtnamn", "Sätila", "03013456456");
+            adminBackend.AddRestaurant("Testnamn", "Test", "0301TEST");
 
             using var ctx = new FoodRescueDbContext(options);
+
             var query = ctx.Restaurants
-                .Where(c => c.Name == "Svårtnamn")
+                .Where(c => c.Name == "Testnamn")
                 .ToList();
 
-            var userRecord = query.Single(); 
-            
             Assert.Equal(1, query.Count());
         }
     }
