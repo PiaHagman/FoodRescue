@@ -2,28 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-// // TOD Flytta ut Se alla kunder till egen metod
-
 {
-    //Skapa och seeda databasen
+    //Databasen skapas via AdminTool, en gång av admin
     var optionBuilder = new DbContextOptionsBuilder();
     optionBuilder.UseSqlServer(
-        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueTestDb"); // TODO Ändrade till Test. Annars skapas bara LiveDB
-
-    var database = new Database(optionBuilder.Options);
-    database.Recreate();
-    //database.SeedLiveData(); Används i verkligheten
-    database.SeedTestData(); //Används inte i skarpt läge
+        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb"); // TODO Ändrade till Test. Annars skapas bara LiveDB
 
     Console.WriteLine("Database initialized");
     Thread.Sleep(1000);
-    var userBackend = new UserBackend(optionBuilder.Options);
-    Console.WriteLine("Database initialized\n");
-    //Thread.Sleep(2000);
 
     AdminBackend admin = new AdminBackend(optionBuilder.Options);
 
-    bool exit = true; // Skapar en Exit för programmet
+    bool exit = true; 
     while (exit)
     {
         #region Meny Admin
@@ -137,6 +127,8 @@ using Microsoft.Extensions.Options;
                 Console.WriteLine("För att återställa databasen skriv \"ja\"");
                 var resetDatabase = Console.ReadLine();
 
+                var database = new Database(optionBuilder.Options);
+
                 if (resetDatabase.ToLower() == "ja")
                 {
                     database.Recreate();
@@ -165,10 +157,7 @@ using Microsoft.Extensions.Options;
                     break;
 
                 }
-
-                #endregion
-
-
+            #endregion
         }
 
     }

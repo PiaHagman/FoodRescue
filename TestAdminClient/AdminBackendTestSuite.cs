@@ -8,9 +8,7 @@ namespace TestAdminClient
 {
     public class AdminBackendTestSuite
     {
-        
-            //private UserBackend _userBackend;
-            private DbContextOptions options;
+        private DbContextOptions options;
             private AdminBackend adminBackend;
 
             public AdminBackendTestSuite()
@@ -29,22 +27,7 @@ namespace TestAdminClient
                 database.SeedTestData();
             }
 
-
-
-
-            /*public AdminBackendTestSuite()
-            {
-                _AdminBackend = new AdminBackend();  // Anslutningen stängs inte ner efter testet. Inga problem enligt Björn.
-
-                //Skapar om databasen inför varje test
-                //AdminBackend admin = new AdminBackend();
-                //admin.CreateAndSeedDb();
-
-                _AdminBackend.CreateAndSeedDb(); // Fungerar denna? Den är lite kortare.
-
-            }*/
-
-            [Fact]
+       [Fact]
         public void Test_AddRestaurant()
         {
 
@@ -56,17 +39,9 @@ namespace TestAdminClient
                 .Where(c => c.Name == "Svårtnamn")
                 .ToList();
 
-            var userRecord = query.Single(); // Kraschar med mening när det blir mer än en användare (tror jag)
+            var userRecord = query.Single(); 
             
             Assert.Equal(1, query.Count());
-
-
-            //var user = LoadMyUser(id); // load the entity
-            //Assert.AreEqual("Mr", user.Title); // test your properties
-            //Assert.AreEqual("Joe", user.Firstname);
-            //Assert.AreEqual("Bloggs", user.Lastname);
         }
-        // AdminBackend.Database.EnsureDeleted(); Skulle ha kunnat radera databasen
-
     }
 }
