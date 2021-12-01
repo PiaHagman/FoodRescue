@@ -17,11 +17,6 @@ namespace AdminClient
             optionBuilder.UseSqlServer(
                 @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
 
-            var database = new Database(optionBuilder.Options);
-            database.Recreate();
-            //database.SeedLiveData(); Används i verkligheten
-            database.SeedTestData(); //Används inte i skarpt läge
-
             Console.WriteLine("Database initialized");
             Thread.Sleep(1000);
             var userBackend = new UserBackend(optionBuilder.Options);
@@ -29,6 +24,7 @@ namespace AdminClient
             {
 
                 Console.Clear();
+                //För login använd exempelvis Pia.Hagman och lösenord HelloWorld1
                 Console.WriteLine("Inlogg Admin");
                 Console.Write("Användarnamn: ");
                 var userName = Console.ReadLine();
