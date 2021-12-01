@@ -21,11 +21,11 @@ namespace DataLayer.Backend
 
         #region GetUsers()
 
-        //Kanske inte så snyggt att hämta hela tabellen utan select, men detta för att ha en metod som är gångbar i flera situationer. 
         public List<User> GetUsers()
         {
             using var ctx = new FoodRescueDbContext(options);
-            List<User> getUsers = ctx.Users.Include(u => u.PersonalInfo)
+            List<User> getUsers = ctx.Users
+                .Include(u => u.PersonalInfo)
                 .ToList();      
 
             return getUsers;
@@ -82,35 +82,6 @@ namespace DataLayer.Backend
 
         #endregion
 
-        #region GetExpiredLunchBoxes()
-
-        public List<LunchBox> GetExpiredLunchBoxes()
-        {
-            using var ctx = new FoodRescueDbContext(options);
-            var queryGetExpiredLunchBoxes = ctx
-                .LunchBoxes
-                .Where(l => l.ConsumeBefore < DateTime.Today && l.ItemSale == null);
-
-            List<LunchBox> ExpiredLunchBoxes = queryGetExpiredLunchBoxes.ToList();
-
-            return ExpiredLunchBoxes;
-        }
-        #endregion
-
-        #region DeleteLunchBoxes()
-        public void DeleteLunchBoxes()
-        {
-            using var ctx = new FoodRescueDbContext(options);
-            var queryGetExpiredLunchBoxes = ctx
-                .LunchBoxes
-                .Where(l => l.ConsumeBefore > DateTime.Today && l.ItemSale == null);
-
-            ctx.LunchBoxes.RemoveRange(queryGetExpiredLunchBoxes);
-            ctx.SaveChanges();
-
-        }
-
-        #endregion
     }
 
 
