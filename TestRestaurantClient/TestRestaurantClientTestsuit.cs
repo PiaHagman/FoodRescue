@@ -39,11 +39,11 @@ namespace TestRestaurantClient
 
             int asianDeli = 1;
             var asianDeliConversion = _restaurantBackend.FindObjectById(asianDeli);
-            var unsoldLunchboxes = _restaurantBackend.GetUnsoldLB(asianDeliConversion);
-
+            
             //ACT
 
             _restaurantBackend.AddLunchBox("PoyasTestBox", "vego", 40.00m, asianDeliConversion);
+            var unsoldLunchboxes = _restaurantBackend.GetUnsoldLB(asianDeliConversion);
 
             // Assert
 

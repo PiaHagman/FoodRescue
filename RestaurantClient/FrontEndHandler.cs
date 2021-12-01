@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace RestaurantClient
 {
     public class FrontEndHandler
     {
         private DbContextOptions options;
+        private RestaurantBackend restaurantBackend;
         
         public FrontEndHandler()
         {
@@ -23,6 +25,8 @@ namespace RestaurantClient
             database.Recreate();
             //database.SeedLiveData(); Används i verkligheten
             database.SeedTestData(); //Används inte i skarpt läge
+
+            restaurantBackend = new RestaurantBackend(optionBuilder.Options);
 
         }
         // Meny
@@ -40,13 +44,12 @@ namespace RestaurantClient
         // Osålda matlådor
         public void GetUnsoldFoodboxesSpecifikRestaurant() {
 
-            var _restaurantBackend = new RestaurantBackend(options);
             Console.WriteLine("Choose the restaurantID in order to see which foodboxes are unsold: ");
             var choosenRestaruant = Int32.Parse(Console.ReadLine());
 
-                var loggedInRestaurant = new RestaurantBackend(options).FindObjectById(choosenRestaruant);
+                var loggedInRestaurant = restaurantBackend.FindObjectById(choosenRestaruant);
 
-            List<LunchBox> soldLunchBoxes = _restaurantBackend.GetUnsoldLB(loggedInRestaurant);
+            List<LunchBox> soldLunchBoxes = restaurantBackend.GetUnsoldLB(loggedInRestaurant);
 
             Console.WriteLine("\nUnsold or available foodboxes: \n");
                 foreach (var e in soldLunchBoxes)
@@ -60,13 +63,13 @@ namespace RestaurantClient
         // Sålda matlådor
         public void GetSoldFoodboxesForSpecifikRestaurant()
         {
-            RestaurantBackend restaurantBack = new RestaurantBackend(options);
+           
             Console.WriteLine("Choose the restaurantID in order to see which foodboxes are sold: ");
             var choosenRestaruant = Int32.Parse(Console.ReadLine());
 
-            var loggedInRestaurant = new RestaurantBackend(options).FindObjectById(choosenRestaruant);
+            var loggedInRestaurant = restaurantBackend.FindObjectById(choosenRestaruant);
 
-            List<LunchBox> soldLunchBoxes = restaurantBack.GetSoldLB(loggedInRestaurant);
+            List<LunchBox> soldLunchBoxes = restaurantBackend.GetSoldLB(loggedInRestaurant);
 
             Console.WriteLine("\nUnsold or available foodboxes: \n");
             foreach (var e in soldLunchBoxes)
@@ -81,10 +84,9 @@ namespace RestaurantClient
 
         public void AddNewFoodbox()
         {
-            RestaurantBackend restaurantBack = new RestaurantBackend(options);
             Console.WriteLine("Choose your RestaurantID: ");
             var choosenRestaruant = Int32.Parse(Console.ReadLine());
-            var loggedInRestaurant = new RestaurantBackend(options).FindObjectById(choosenRestaruant);
+            var loggedInRestaurant = restaurantBackend.FindObjectById(choosenRestaruant);
 
             Console.Clear();
             Console.WriteLine("Lägg till en ny lunchlåda:");
@@ -116,7 +118,7 @@ namespace RestaurantClient
 
             }
 
-            restaurantBack.AddLunchBox(dishname, dishtype, price, loggedInRestaurant);
+            restaurantBackend.AddLunchBox(dishname, dishtype, price, loggedInRestaurant);
             Console.WriteLine("");
             Console.WriteLine("Lunchlådan är tillagd!");
             Console.WriteLine("");
