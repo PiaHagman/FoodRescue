@@ -129,7 +129,6 @@ using Microsoft.Extensions.Options;
                 if (resetDatabase.ToLower() == "ja")
                 {
                     database.Recreate();
-
                     database.SeedTestData();
                     Console.WriteLine("Databasen har återställts.");
                 }
@@ -152,7 +151,6 @@ using Microsoft.Extensions.Options;
                 {
                     exit = false;
                     break;
-
                 }
             #endregion
         }
