@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using DataLayer.Backend;
+﻿using DataLayer.Backend;
 using DataLayer.Model;
 using RestaurantClient;
 

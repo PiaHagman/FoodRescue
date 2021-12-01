@@ -6,10 +6,7 @@ using Microsoft.Extensions.Options;
     //Databasen skapas via AdminTool, en gång av admin
     var optionBuilder = new DbContextOptionsBuilder();
     optionBuilder.UseSqlServer(
-        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb"); // TODO Ändrade till Test. Annars skapas bara LiveDB
-
-    Console.WriteLine("Database initialized");
-    Thread.Sleep(1000);
+        @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb"); 
 
     AdminBackend admin = new AdminBackend(optionBuilder.Options);
 

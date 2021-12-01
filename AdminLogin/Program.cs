@@ -17,8 +17,6 @@ namespace AdminClient
             optionBuilder.UseSqlServer(
                 @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
 
-            Console.WriteLine("Database initialized");
-            Thread.Sleep(1000);
             var userBackend = new UserBackend(optionBuilder.Options);
             while (true)
             {

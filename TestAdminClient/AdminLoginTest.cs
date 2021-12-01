@@ -2,7 +2,6 @@ using DataLayer.Backend;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-
 namespace TestAdminClient
 {
     public class AdminLoginTestSuite
