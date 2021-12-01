@@ -17,7 +17,7 @@ namespace DataLayer.Data
         public DbSet<ItemSale> ItemSales { get; set; }
         public DbSet<UserPersonalInfo> PersonalInfo { get; set; }
 
-        public FoodRescueDbContext(DbContextOptions options) : base(options) { }
+   
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPersonalInfo>()
@@ -37,6 +37,7 @@ namespace DataLayer.Data
                 .HasDefaultValue(DateTime.Today);
         }
 
+        public FoodRescueDbContext(DbContextOptions options) : base(options){}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // ställer in dbcontext på annat håll via konstruktorn

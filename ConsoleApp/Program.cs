@@ -28,7 +28,8 @@ namespace ConsoleApp
                 #region Huvudmeny
 
             {
-                Console.Clear();
+                '
+Console.Clear();
                 Console.WriteLine("Välj användartyp genom att ange 1-3");
                 Console.WriteLine("1. Admin");
                 Console.WriteLine("2. Kund");
