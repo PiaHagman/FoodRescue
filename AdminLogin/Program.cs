@@ -16,7 +16,6 @@ namespace AdminClient
             var optionBuilder = new DbContextOptionsBuilder();
             optionBuilder.UseSqlServer(
                 @"server=(localdb)\MSSQLLocalDB;database=FoodRescueLiveDb");
-
             Console.WriteLine("Database initialized");
             Thread.Sleep(1000);
             var userBackend = new UserBackend(optionBuilder.Options);
@@ -72,6 +71,7 @@ namespace AdminClient
                 Console.Clear();
                 Console.WriteLine($"Hej och välkommen {user.PersonalInfo.FullName}!");
                 Console.ReadLine();
+
             }
         }
         #endregion

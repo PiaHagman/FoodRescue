@@ -64,7 +64,8 @@ namespace DataLayer.Data
                 new() {DateRegistered = DateTime.Today.AddDays(-3)},                //Ännu annat sätt
                 new() {DateRegistered = DateTime.Today},
                 new() {DateRegistered = DateTime.Today},
-                new() {DateRegistered = DateTime.Today}
+                new() {DateRegistered = DateTime.Today},
+                
 
             };
 

@@ -100,7 +100,7 @@ namespace DataLayer.Backend
         public void CreateUser(string fullname, string username, string password, string email)
         {
             using var ctx = new FoodRescueDbContext(options);
-
+            
             ctx.PersonalInfo.Add(new()
                 {FullName = fullname, Username = username, Password = password, Email = email, User = new User()});
 
@@ -110,8 +110,21 @@ namespace DataLayer.Backend
 
         #endregion
 
+        public void CreateAdminUser(string fullname, string username, string password, string email)
+        {
+            using var ctx = new FoodRescueDbContext(options);
+            var adminUser = ctx.Users.Add(new() { Admin = true });
+            ctx.PersonalInfo.Add(new()
+                { FullName = fullname, Username = username, Password = password, Email = email, User = adminUser.Entity });
+
+            ctx.SaveChanges();
 
 
-        
+
+
+        }
+
+
+
     }
 }
