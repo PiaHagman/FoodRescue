@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace DataLayer.Data
             //optionsBuilder.UseSqlServer(@"server=(localdb)\MSSQLLocalDB;database=FoodRescueDb_CodeFirst");
         }
 
-        #region TestData i listor för att seeda tabeller
+        /*#region TestData i listor för att seeda tabeller
         public void Seed()
         {
             
@@ -64,7 +65,9 @@ namespace DataLayer.Data
                 new() {DateRegistered = DateTime.Today.AddDays(-3)},                //Ännu annat sätt
                 new() {DateRegistered = DateTime.Today},
                 new() {DateRegistered = DateTime.Today},
-                new() {DateRegistered = DateTime.Today}
+                new() {DateRegistered = DateTime.Today},
+                new() {DateRegistered = DateTime.Parse("2021-01-01"), Admin = true}
+              
 
             };
 
@@ -76,7 +79,8 @@ namespace DataLayer.Data
                 new() {FullName = "Sofiia Löf", Username = "Sofiia.Lof", Password = "HelloWorld1", Email = "lof.sofiia@gmail.com", User = Users[3]},
                 new() {FullName = "Joakim Engström", Username = "Joakim.Engstrom", Password = "HelloWorld1", Email = "engstrom.joakim@gmail.com", User = Users[4]},
                 new() {FullName = "Anna Märta", Username = "Anna.Marta", Password = "HelloWorld1", Email = "marta.anna@gmail.com", User = Users[5]},
-                new() {FullName = "Poya Ghahremani", Username = "Poya.Ghahremani", Password = "HelloWorld1", Email = "ghahremani.poya@gmail.com", User = Users[6]}
+                new() {FullName = "Poya Ghahremani", Username = "Poya.Ghahremani", Password = "HelloWorld1", Email = "ghahremani.poya@gmail.com", User = Users[6]},
+                new() {FullName = "Admin", Username = "admin", Password = "admin123", Email = "admin@gmail.com", User = Users[7]}
             };
 
             List<LunchBox> LunchBoxes = new List<LunchBox>
@@ -118,6 +122,6 @@ namespace DataLayer.Data
 
             #endregion
 
-        }
+        }*/
     }
 }

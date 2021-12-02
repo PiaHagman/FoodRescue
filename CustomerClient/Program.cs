@@ -81,14 +81,14 @@ void SeeAndBuyLunchbox(User user)
     {
         Console.WriteLine($"{lb.DishName}, {Decimal.Round(lb.Price)} kronor, {lb.Restaurant.Name}, Köp-ID: {lb.Id}");
     }
-    Console.WriteLine("\nTryck esc för att gå tillbaka till menyn, enter för att köpa en lunchlåda:");
+    Console.WriteLine("\nTryck esc för att gå tillbaka till menyn, valfri tangent för att köpa en lunchlåda:");
     
     var key = Console.ReadKey().Key;
     if (key == ConsoleKey.Escape)
     {
         return;
     }
-
+    
     var foodChoice=0;
     Console.WriteLine("\nKöp en lunchlåda genom att ange dess Köp-ID:");
 

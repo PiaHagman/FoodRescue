@@ -70,6 +70,7 @@ namespace AdminClient
                 Console.Clear();
                 Console.WriteLine($"Hej och välkommen {user.PersonalInfo.FullName}!");
                 Console.ReadLine();
+
             }
         }
         #endregion

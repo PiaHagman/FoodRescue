@@ -35,7 +35,9 @@ namespace DataLayer.Backend
                 new() {DateRegistered = DateTime.Today.AddDays(-3)},                //Ännu annat sätt
                 new() {DateRegistered = DateTime.Today},
                 new() {DateRegistered = DateTime.Today},
-                new() {DateRegistered = DateTime.Today}
+                new() {DateRegistered = DateTime.Today},
+                new() {DateRegistered = DateTime.Parse("2021-01-01"), Admin = true}
+
 
             };
 
@@ -47,7 +49,8 @@ namespace DataLayer.Backend
                 new() {FullName = "Sofiia Löf", Username = "Sofiia.Lof", Password = "HelloWorld1", Email = "lof.sofiia@gmail.com", User = users[3]},
                 new() {FullName = "Joakim Engström", Username = "Joakim.Engstrom", Password = "HelloWorld1", Email = "engstrom.joakim@gmail.com", User = users[4]},
                 new() {FullName = "Anna Märta", Username = "Anna.Marta", Password = "HelloWorld1", Email = "marta.anna@gmail.com", User = users[5]},
-                new() {FullName = "Poya Ghahremani", Username = "Poya.Ghahremani", Password = "HelloWorld1", Email = "ghahremani.poya@gmail.com", User = users[6]}
+                new() {FullName = "Poya Ghahremani", Username = "Poya.Ghahremani", Password = "HelloWorld1", Email = "ghahremani.poya@gmail.com", User = users[6]},
+                new() {FullName = "Admin", Username = "admin", Password = "admin123", Email = "admin@gmail.com", User = users[7]}
             };
 
             List<LunchBox> lunchBoxes = new List<LunchBox>
@@ -93,7 +96,7 @@ namespace DataLayer.Backend
         {
             List<User> users = new List<User>
             {
-                new() {DateRegistered = DateTime.Today}
+                new() {DateRegistered = DateTime.Today, Admin = true}
             };
 
             List<UserPersonalInfo> personalInfo = new List<UserPersonalInfo>
