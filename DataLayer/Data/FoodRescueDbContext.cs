@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,14 +59,14 @@ namespace DataLayer.Data
 
             List<User> Users = new List<User>
             {
-                new() {DateRegistered = DateTime.Parse("2021-01-10")},
+                new() {DateRegistered = DateTime.Parse("2021-01-10"), Admin = true},
                 new() {DateRegistered = DateTime.Parse("2021-08-15")},
                 new() {DateRegistered = new DateTime(2021, 09, 01)},    //Annat sätt att skriva på
                 new() {DateRegistered = DateTime.Today.AddDays(-3)},                //Ännu annat sätt
                 new() {DateRegistered = DateTime.Today},
                 new() {DateRegistered = DateTime.Today},
                 new() {DateRegistered = DateTime.Today},
-                
+              
 
             };
 

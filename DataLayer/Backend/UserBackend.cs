@@ -39,6 +39,30 @@ namespace DataLayer.Backend
         }
         #endregion
 
+        #region TryAdminLogin
+
+        public User TryAdminLogin(string username, string password)
+        {
+            //kolla om username finns
+            using var ctx = new FoodRescueDbContext(options);
+            var query = ctx
+                .Users
+                .Include(u => u.PersonalInfo)
+                .Where(u => u.PersonalInfo.Username == username);
+
+            var user = query.FirstOrDefault(); //.singleOrDefault skulle fungera bättre om vi inte hade ett unik constraint 
+
+            if (user == null) return null;
+
+            if (user.PersonalInfo.Password == password && user.Admin == true) return user;
+
+
+            return null;
+
+        }
+
+        #endregion
+
         #region GetAvailableLunchBoxes()
 
         public List<LunchBox> GetAvailableLunchBoxes(string dishType)
@@ -118,9 +142,6 @@ namespace DataLayer.Backend
                 { FullName = fullname, Username = username, Password = password, Email = email, User = adminUser.Entity });
 
             ctx.SaveChanges();
-
-
-
 
         }
 
